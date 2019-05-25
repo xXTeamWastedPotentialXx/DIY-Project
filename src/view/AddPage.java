@@ -3,18 +3,28 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class AddPage extends JFrame implements ChangeListener{
+import model.Materials;
+import model.Project;
+import model.Tasks;
 
+public class AddPage extends JFrame implements ChangeListener, ActionListener {
+	
     /**
      * 
      */
@@ -26,30 +36,73 @@ public class AddPage extends JFrame implements ChangeListener{
     /** The height of the panel. */
     private static final int HEIGHT = 700;
     
-    /** Integer value to hold thickness of drawings. */
-    private static int myThicknessValue;
+    /** Integer value to hold difficulty level. */
+    private static int myDifficultyValue;
     
-    /** The slider for thickness of drawings. */
-    private JSlider myThicknessSlider;
+    /** The slider for difficulty of project. */
+    private JSlider myDifficultySlider;
     
-    public AddPage() {
+    /** Integer value to hold difficulty level. */
+    private static int myPriortyValue;
+    
+    /** The slider for difficulty of project. */
+    private JSlider myPriortySlider;
+    
+    private JButton myConfirmButton;
+    
+    private JButton myCancelButton;
+    
+    private JPanel myMatPan;
+    private JPanel myTaskPan;
+    private JTextField myName;
+    private ArrayList<Materials> myMaterials;
+    private ArrayList<Tasks> myTasks;
+    private Project myProject;
+    private HomePage myHome;
+    
+    public AddPage(HomePage theHome) {
         
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         
         final Container container = getContentPane();
-
+        myHome = theHome;
         final JPanel panel = new JPanel();
         
         final JLabel imgLabel = new JLabel("",
                                         new ImageIcon("./Resources/HomePage BackGround.png"), 
                                         SwingConstants.CENTER);
-
+        createSliders();
         container.add(panel, BorderLayout.CENTER);
-       
-        container.add(myThicknessSlider,BorderLayout.CENTER);
-        
+        panel.setOpaque(true);
+        myName = new JTextField(20);
+        JPanel namePan = new JPanel();
+        namePan.add(new JLabel("Project Name:"), BorderLayout.WEST);
+        namePan.add(myName);
+        panel.add(namePan);
+        myTaskPan = new JPanel();
+        myTaskPan.add(new JLabel("Tasks:"), BorderLayout.WEST);
+        myMatPan = new JPanel();
+        myMatPan.add(new JLabel("Materials:"), BorderLayout.EAST);
+        panel.add(myMatPan);
+        panel.add(myTaskPan);
+        JPanel diffPan = new JPanel();
+        diffPan.add(new JLabel("Difficulty"), BorderLayout.WEST);
+        diffPan.add(myDifficultySlider, BorderLayout.EAST);
+        panel.add(diffPan);
+        JPanel priorPan = new JPanel();
+        priorPan.add(new JLabel("Priorty"), BorderLayout.WEST);
+        priorPan.add(myPriortySlider, BorderLayout.EAST);
+        panel.add(priorPan, BorderLayout.SOUTH);
+        container.add(panel, BorderLayout.CENTER);
         panel.add(imgLabel, BorderLayout.CENTER);
-        
+        final JPanel buttonOptions = new JPanel();
+        myConfirmButton = new JButton("Confirm");
+        myCancelButton = new JButton("Cancel");
+        buttonOptions.add(myConfirmButton);
+        buttonOptions.add(myCancelButton);
+        container.add(buttonOptions, BorderLayout.SOUTH);
+        myConfirmButton.addActionListener(this);
+        myCancelButton.addActionListener(this);
         this.pack();
 
         this.setLocationRelativeTo(null);
@@ -66,28 +119,39 @@ public class AddPage extends JFrame implements ChangeListener{
     /**
      * creates the slider for the thickness menu.
      * 
-     * @return JSlider with ticks and numbers.
      */
-    public JSlider createSlider() {
+    public void createSliders() {
         final int increment = 5;
            
-        final int maxNumber = 15;
+        final int maxNumber = 10;
 
-        myThicknessSlider = new JSlider(SwingConstants.HORIZONTAL, 0, maxNumber, increment);
+        myDifficultySlider = new JSlider(SwingConstants.HORIZONTAL, 0, maxNumber, increment);
            
-        myThicknessSlider.setMajorTickSpacing(increment);
+        myDifficultySlider.setMajorTickSpacing(increment);
            
-        myThicknessSlider.setMinorTickSpacing(1);
+        myDifficultySlider.setMinorTickSpacing(1);
            
-        myThicknessSlider.setPaintLabels(true);
+        myDifficultySlider.setPaintLabels(true);
            
-        myThicknessSlider.setPaintTicks(true);
+        myDifficultySlider.setPaintTicks(true);
            
-        myThicknessSlider.addChangeListener(this);
+        myDifficultySlider.addChangeListener(this);
            
-        myThicknessValue = increment;
+        myDifficultyValue = increment;
         
-        return myThicknessSlider;
+        myPriortySlider = new JSlider(SwingConstants.HORIZONTAL, 0, maxNumber, increment);
+        
+        myPriortySlider.setMajorTickSpacing(increment);
+           
+        myPriortySlider.setMinorTickSpacing(1);
+           
+        myPriortySlider.setPaintLabels(true);
+           
+        myPriortySlider.setPaintTicks(true);
+       
+        myPriortySlider.addChangeListener(this);
+        
+        myPriortyValue = increment;
     }
 
    /**
@@ -95,9 +159,9 @@ public class AddPage extends JFrame implements ChangeListener{
     * 
     * @param theThicknessValue integer for thickness.
     */
-    public void setMyThicknessValue(final int theThicknessValue) {
+    public void setMyDifficultyValue(final int theThicknessValue) {
 
-        myThicknessValue = theThicknessValue;
+        myDifficultyValue = theThicknessValue;
     }
        
    /**
@@ -105,16 +169,50 @@ public class AddPage extends JFrame implements ChangeListener{
     * 
     * @return myThicknessValue integer from slider.
     */
-    public int getMyThicknessValue() {
+    public int getMyDifficultyValue() {
 
-        return myThicknessValue;
+        return myDifficultyValue;
     }
-    
+    /**
+     * sets the integer value for thickness.
+     * 
+     * @param theThicknessValue integer for thickness.
+     */
+     public void setMyPriortyValue(final int theThicknessValue) {
+
+         myDifficultyValue = theThicknessValue;
+     }
+        
+    /**
+     * returns a integer value.
+     * 
+     * @return myThicknessValue integer from slider.
+     */
+     public int getMyPriortyValue() {
+
+         return myDifficultyValue;
+     }
     /** {@inheritDoc} */
     @Override
     public void stateChanged(final ChangeEvent theEvent) {
-
-        setMyThicknessValue(myThicknessSlider.getValue());
+    	if(theEvent.getSource() == myDifficultySlider) {
+    		setMyDifficultyValue(myDifficultySlider.getValue());
+    	} else if( theEvent.getSource() == myPriortySlider) {
+    		setMyPriortyValue(myPriortySlider.getValue());
+    	}
+    }
+    
+    @Override
+    public void actionPerformed(final ActionEvent theEvent) {
+        
+        if (theEvent.getSource() == myConfirmButton) {
+            this.setVisible(false);
+            myHome.setVisible(true);
+            
+        } else if (theEvent.getSource() == myCancelButton) {
+            this.setVisible(false);
+            myHome.setVisible(true);
+        }
     }
     
 }
