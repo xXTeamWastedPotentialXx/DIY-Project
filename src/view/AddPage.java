@@ -3,6 +3,9 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -12,7 +15,9 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSlider;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -59,6 +64,9 @@ public class AddPage extends JFrame implements ChangeListener, ActionListener {
     private ArrayList<Tasks> myTasks;
     private Project myProject;
     private HomePage myHome;
+    private JTabbedPane myTab;
+    private JScrollPane myMats;
+    private JScrollPane myTsks;
     
     public AddPage(HomePage theHome) {
         
@@ -66,35 +74,50 @@ public class AddPage extends JFrame implements ChangeListener, ActionListener {
         
         final Container container = getContentPane();
         myHome = theHome;
-        final JPanel panel = new JPanel();
+        final JPanel panel = new JPanel(new GridLayout(0, 1, 0, 20));
+        myMats = new JScrollPane();
+        myTsks = new JScrollPane();
+        myTab = new JTabbedPane();
+
         
         final JLabel imgLabel = new JLabel("",
                                         new ImageIcon("./Resources/HomePage BackGround.png"), 
                                         SwingConstants.CENTER);
+       
         createSliders();
         container.add(panel, BorderLayout.CENTER);
         panel.setOpaque(true);
         myName = new JTextField(20);
         JPanel namePan = new JPanel();
-        namePan.add(new JLabel("Project Name:"), BorderLayout.WEST);
+        namePan.add(new JLabel("Project Name:"));
         namePan.add(myName);
         panel.add(namePan);
         myTaskPan = new JPanel();
-        myTaskPan.add(new JLabel("Tasks:"), BorderLayout.WEST);
+        myTaskPan.add(new JLabel("Tasks:"));
+        JButton t = new JButton();
+        t.add(new JLabel("Add Tasks"));
+        myTaskPan.add(t);
+        
         myMatPan = new JPanel();
-        myMatPan.add(new JLabel("Materials:"), BorderLayout.EAST);
+        myMatPan.add(new JLabel("Materials:"));
+       
         panel.add(myMatPan);
+
         panel.add(myTaskPan);
+        createTabPanes();
+        panel.add(myTab);
         JPanel diffPan = new JPanel();
-        diffPan.add(new JLabel("Difficulty"), BorderLayout.WEST);
-        diffPan.add(myDifficultySlider, BorderLayout.EAST);
+        diffPan.add(new JLabel("Difficulty"));
+        diffPan.add(myDifficultySlider);
+
         panel.add(diffPan);
         JPanel priorPan = new JPanel();
-        priorPan.add(new JLabel("Priorty"), BorderLayout.WEST);
-        priorPan.add(myPriortySlider, BorderLayout.EAST);
-        panel.add(priorPan, BorderLayout.SOUTH);
-        container.add(panel, BorderLayout.CENTER);
-        panel.add(imgLabel, BorderLayout.CENTER);
+        priorPan.add(new JLabel("Priorty"));
+        priorPan.add(myPriortySlider);
+
+        panel.add(priorPan);
+        //panel.add(priorPan, BorderLayout.SOUTH);
+        container.add(panel, BorderLayout.WEST);
         final JPanel buttonOptions = new JPanel();
         myConfirmButton = new JButton("Confirm");
         myCancelButton = new JButton("Cancel");
@@ -152,6 +175,10 @@ public class AddPage extends JFrame implements ChangeListener, ActionListener {
         myPriortySlider.addChangeListener(this);
         
         myPriortyValue = increment;
+    }
+    public void createTabPanes() {
+    	myTab.add("Materials", myMats);
+    	myTab.add("Tasks", myTsks);
     }
 
    /**

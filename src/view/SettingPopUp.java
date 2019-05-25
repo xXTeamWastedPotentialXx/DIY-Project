@@ -15,11 +15,13 @@ public class SettingPopUp extends JOptionPane {
 	private String myEmail;
 	private String myName;
 	
-	public SettingPopUp() {
+	public SettingPopUp(String theEmail, String theName) {
 		JTextField email = new JTextField(30);
 		JTextField name = new JTextField(30);
 		JPanel namePan = new JPanel();
 		JPanel mailPan = new JPanel();
+		email.setText(theEmail);
+		name.setText(theName);
 		namePan.add(new JLabel("Name:"), BorderLayout.WEST);
 		namePan.add(name, BorderLayout.EAST);
 		mailPan.add(new JLabel("Email:"), BorderLayout.WEST);

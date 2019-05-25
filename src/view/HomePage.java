@@ -156,7 +156,7 @@ public class HomePage extends JFrame implements ActionListener {
         } else if(theEvent.getSource() == myExportButton) {
         	saveFile();
         } else if(theEvent.getSource() == mySettings) {
-        	SettingPopUp set = new SettingPopUp();
+        	SettingPopUp set = new SettingPopUp(myEmail, myName);
         	myEmail = set.getEmail();
         	myName = set.getName();
         	
@@ -165,9 +165,9 @@ public class HomePage extends JFrame implements ActionListener {
     private void openFile() 
     {
     
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("csv", "txt");
+        //FileNameExtensionFilter filter = new FileNameExtensionFilter("csv", "txt");
         myOpenFile.setCurrentDirectory(myLocation);
-        myOpenFile.setFileFilter(filter);
+        //myOpenFile.setFileFilter(filter);
 
         final int returnValue = myOpenFile.showOpenDialog(null); 
 
@@ -176,7 +176,14 @@ public class HomePage extends JFrame implements ActionListener {
         	try {
         		myLocation = myOpenFile.getCurrentDirectory();
         		Scanner file = new Scanner(myOpenFile.getSelectedFile());
-        		myApp.loadProjects(file);
+        		if(file.hasNext()) {
+        			myEmail = file.next();
+        			
+        		}
+        		if(file.hasNext()) {
+        			myName = file.next();
+        		}
+        		//myApp.loadProjects(file);
         	} catch (final FileNotFoundException e) 
             {
                 JOptionPane.showMessageDialog(null, "File Not Found"); 
