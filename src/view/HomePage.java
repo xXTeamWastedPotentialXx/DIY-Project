@@ -82,7 +82,7 @@ public class HomePage extends JFrame implements ActionListener {
         
        
         myAddButton = new JButton("Add");
-        
+        myApp = new Application();
         myDeleteButton = new JButton("Dele");
         
         myAboutButton = new JButton("About");
@@ -146,7 +146,7 @@ public class HomePage extends JFrame implements ActionListener {
         
         if (theEvent.getSource() == myAddButton) {
             this.setVisible(false);
-            new AddPage(this);
+            new AddPage(this, myApp);
             
         } else if (theEvent.getSource() == myAboutButton) {
             
@@ -162,6 +162,9 @@ public class HomePage extends JFrame implements ActionListener {
         	
         }
     }
+	/**
+	 * @author Joseph Rushford
+	 */
     private void openFile() 
     {
     
@@ -183,7 +186,7 @@ public class HomePage extends JFrame implements ActionListener {
         		if(file.hasNext()) {
         			myName = file.next();
         		}
-        		//myApp.loadProjects(file);
+        		myApp.loadProjects(file);
         	} catch (final FileNotFoundException e) 
             {
                 JOptionPane.showMessageDialog(null, "File Not Found"); 
@@ -191,6 +194,9 @@ public class HomePage extends JFrame implements ActionListener {
         }
 
     }
+	/**
+	 * @author Joseph Rushford
+	 */
     private void saveFile() 
     {
     	myOpenFile.setCurrentDirectory(myLocation);

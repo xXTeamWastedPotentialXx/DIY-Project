@@ -21,6 +21,7 @@ public class SettingPopUp extends JOptionPane {
 		JPanel namePan = new JPanel();
 		JPanel mailPan = new JPanel();
 		email.setText(theEmail);
+
 		name.setText(theName);
 		namePan.add(new JLabel("Name:"), BorderLayout.WEST);
 		namePan.add(name, BorderLayout.EAST);

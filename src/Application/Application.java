@@ -10,12 +10,18 @@ import model.Project;
 public class Application {
 	
 	private ArrayList<Project> theProjects;
-	
+	public Application() {
+		theProjects = new ArrayList<Project>();
+	}
 	
 	public void loadProjects(final Scanner theFile) {
 
 	}
 	public void addProject(Project theNewProject) {
-		
+		theProjects.add(theNewProject);
 	}
+    
+
+
+
 }

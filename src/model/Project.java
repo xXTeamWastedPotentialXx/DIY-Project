@@ -4,6 +4,7 @@
 
 package model;
 
+import java.util.ArrayList;
 
 public class Project {
     
@@ -22,23 +23,29 @@ public class Project {
     
     private boolean enviromentallyFriendly;
     
-    private Object task[];
+    private ArrayList<Tasks> myTasks;
                     
-    private Object materials[];
+    private ArrayList<Materials> myMaterials;
     
     
     /**
      * Constructor
      */
-    public Project() {
+    public Project(String theName, int theDifficulty, int thePriorty, boolean theStatus,
+    			ArrayList<Tasks> theTasks, ArrayList<Materials> theMats) {
         
-        enviromentallyFriendly = false;
+        enviromentallyFriendly = theStatus;
         
-        difficultly = 0;
+        difficultly = theDifficulty;
         
-        priorityOfProject = 0;
+        priorityOfProject = thePriorty;
+        projectName = theName;
+        myTasks = theTasks;
+        myMaterials = theMats;
     }
-    
+    public Project(String test) {
+    	projectName = test;
+    }
     
     /** #           #
      *   # GETTERS #
@@ -79,15 +86,15 @@ public class Project {
     }
     
     
-    public Object getTasks() {
+    public ArrayList<Tasks> getTasks() {
         
-        return task;
+        return myTasks;
     }
     
     
-    public Object getMaterials() {
+    public ArrayList<Materials> getMaterials() {
         
-        return materials;
+        return myMaterials;
     }
     
     
@@ -129,14 +136,21 @@ public class Project {
     }
     
     
-    public void setTasks(Object[] theTasks) {
+    public void addTasks(Tasks theTask) {
         
-        this.task = theTasks;
+        this.myTasks.add(theTask);
+    }
+    public void removeTasks(Tasks theTask) {
+        
+        this.myTasks.remove(theTask);
     }
     
     
-    public void setMaterials(Object[] theMaterials) {
+    public void addMaterials(Materials theMaterial) {
         
-        this.materials = theMaterials;
+        this.myMaterials.add(theMaterial);
+    }
+    public void removeMaterials(Materials theMaterial) {
+    	this.myMaterials.remove(theMaterial);
     }
 }
