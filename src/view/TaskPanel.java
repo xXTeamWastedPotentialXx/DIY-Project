@@ -27,25 +27,19 @@ public class TaskPanel extends JOptionPane{
 			JTextField name = new JTextField(30);
 			JTextField amount = new JTextField(30);
 			JPanel namePan = new JPanel();
-			JPanel costPan = new JPanel();
-			JPanel amountPan = new JPanel(); 
+
 			namePan.add(new JLabel("Name:"), BorderLayout.WEST);
 			namePan.add(name, BorderLayout.EAST);
-			costPan.add(new JLabel("Cost:"), BorderLayout.WEST);
-			costPan.add(cost, BorderLayout.EAST);
-			amountPan.add(new JLabel("Amount:"), BorderLayout.WEST);
-			amountPan.add(amount, BorderLayout.EAST);
+
 			JPanel[] settings = new JPanel[2];
 			name.setName("Name");
-			settings[0] = costPan;
-			settings[1] = namePan;
+
+			settings[0] = namePan;
 			int confirm = JOptionPane.showConfirmDialog(null, settings, "New Task",  JOptionPane.OK_CANCEL_OPTION);
 			if(confirm == JOptionPane.OK_OPTION) {
-				myCost = cost.getText();
+
 				myName = name.getText();
-				myAmount = amount.getText();
 			} else {
-				myCost = "No Email Given";
 				myName = "No Name Given";
 			}
 		
@@ -54,7 +48,7 @@ public class TaskPanel extends JOptionPane{
 		 * @author Joseph Rushford
 		 */
 		public Tasks returnTask() {
-			Tasks newTask = new Tasks();
+			Tasks newTask = new Tasks(myName);
 
 			return newTask;
 		}

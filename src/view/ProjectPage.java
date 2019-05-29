@@ -30,7 +30,7 @@ import model.Materials;
 import model.Project;
 import model.Tasks;
 
-public class AddPage extends JFrame implements ChangeListener, ActionListener {
+public class ProjectPage extends JFrame implements ChangeListener, ActionListener {
 	
     /**
      * 
@@ -55,10 +55,10 @@ public class AddPage extends JFrame implements ChangeListener, ActionListener {
     /** The slider for difficulty of project. */
     private JSlider myPriortySlider;
     
-    private JButton myConfirmButton;
+    private JButton myEditButton;
     
     private JButton myCancelButton;
-    
+    private JButton myDeleteButton;
     private JPanel myMatPan;
     private JPanel myTaskPan;
     private JTextField myName;
@@ -80,7 +80,7 @@ public class AddPage extends JFrame implements ChangeListener, ActionListener {
 	 * @author Gehry Guest
 	 * @author Joseph Rushford
 	 */
-    public AddPage(HomePage theHome, Application theApp) {
+    public ProjectPage(HomePage theHome, Application theApp, Project theProject) {
         
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         myApp = theApp;
@@ -96,6 +96,7 @@ public class AddPage extends JFrame implements ChangeListener, ActionListener {
                                         new ImageIcon("./Resources/HomePage BackGround.png"), 
                                         SwingConstants.CENTER);
         myStatus = new JToggleButton("Enviromental Friendly");
+        myStatus.setSelected(theProject.getEnviromentallyFriendly());
         
         createSliders();
         container.add(panel, BorderLayout.CENTER);
@@ -103,7 +104,8 @@ public class AddPage extends JFrame implements ChangeListener, ActionListener {
         myName = new JTextField(20);
         JPanel namePan = new JPanel();
         namePan.add(new JLabel("Project Name:"));
-        namePan.add(myName);
+        myName.setText(theProject.getProjectName());
+        namePan.add(myName); 
         panel.add(namePan);
         myMatAdd = new JButton();
         myMatAdd.add(new JLabel("Add Materials"));
@@ -126,26 +128,33 @@ public class AddPage extends JFrame implements ChangeListener, ActionListener {
         JPanel diffPan = new JPanel();
         diffPan.add(new JLabel("Difficulty"));
         diffPan.add(myDifficultySlider);
-
+        myDifficultySlider.setValue(theProject.getDifficultly());
+        myPriortySlider.setValue(theProject.getPriority()); 
+        
         panel.add(diffPan);
         JPanel priorPan = new JPanel();
         priorPan.add(new JLabel("Priorty"));
         priorPan.add(myPriortySlider);
 
         panel.add(priorPan);
+        
         //panel.add(priorPan, BorderLayout.SOUTH);
-        container.add(panel, BorderLayout.CENTER);
+        container.add(panel, BorderLayout.WEST);
         final JPanel buttonOptions = new JPanel();
-        myConfirmButton = new JButton("Confirm");
+        myEditButton = new JButton("Edit");
         myCancelButton = new JButton("Cancel");
-        buttonOptions.add(myConfirmButton);
+        myDeleteButton = new JButton("Delete");
+        buttonOptions.add(myEditButton);
         buttonOptions.add(myCancelButton);
+        buttonOptions.add(myDeleteButton);
         panel.add(myTab);
+        
         container.add(buttonOptions, BorderLayout.SOUTH);
-        myConfirmButton.addActionListener(this);
+        setState(false);
+        myEditButton.addActionListener(this);
         myCancelButton.addActionListener(this);
         this.pack();
-
+        
         this.setLocationRelativeTo(null);
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -244,7 +253,17 @@ public class AddPage extends JFrame implements ChangeListener, ActionListener {
     /**
      * @author Gehry Guest
      * @author Joseph Rushford
+     * @return 
      */
+    public void setState(boolean theState) {
+        
+        myDifficultySlider.setEnabled(theState);
+        myPriortySlider.setEnabled(theState);
+        myName.setEnabled(theState);
+    	myTaskAdd.setEnabled(theState);
+    	myMatAdd.setEnabled(theState);
+        myStatus.setEnabled(theState);
+    }
     @Override
     public void stateChanged(final ChangeEvent theEvent) {
     	if(theEvent.getSource() == myDifficultySlider) {
@@ -253,16 +272,18 @@ public class AddPage extends JFrame implements ChangeListener, ActionListener {
     		setMyPriortyValue(myPriortySlider.getValue());
     	}
     }
+    
 	/**
 	 * @author Joseph Rushford
 	 */
     @Override
     public void actionPerformed(final ActionEvent theEvent) {
         
-        if (theEvent.getSource() == myConfirmButton) {
+        if (theEvent.getSource() == myEditButton) {
+        	myEditButton.setText("Confirm");
             Project test = new Project("Test");
             //myApp.addProject(new Project(myName.getText(), myDifficultyValue, myPriortyValue, myStatus.isSelected(), myTasks, myMaterials));
-            //myApp.addProject(test);
+            myApp.addProject(test);
             this.setVisible(false);
             myHome.setVisible(true);
      
@@ -282,6 +303,8 @@ public class AddPage extends JFrame implements ChangeListener, ActionListener {
     		//myTasks.add(addMat.returnTask());
     		myTsks.add(new JToggleButton("test"));
 
+    	}else if(theEvent.getSource() == myDeleteButton) {
+    		
     	}
     }
 }
