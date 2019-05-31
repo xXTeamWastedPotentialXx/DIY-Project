@@ -97,7 +97,7 @@ public class HomePage extends JFrame implements ActionListener {
 
     private String myName;
 
-    private JButton mySettings;
+    private JMenuItem mySettings;
     
     //make jmenu bar
     //list of buttons, examples on canvas.
@@ -115,7 +115,7 @@ public class HomePage extends JFrame implements ActionListener {
         myName = "Name not Given";
         
 
-        mySettings = new JButton("Settings");
+        mySettings = new JMenuItem("Settings");
         
         //JScrollPane listScroller = new JScrollPane(myList);
         
@@ -266,6 +266,7 @@ public class HomePage extends JFrame implements ActionListener {
         myOtherMenu.add(myAboutButton);
         myOtherMenu.addSeparator();
         myOtherMenu.add(mySortButton);
+        myOtherMenu.add(mySettings);
         myMenuBar.add(myOtherMenu);
         myMenuBar.add(spacer4);
         
@@ -336,6 +337,7 @@ public class HomePage extends JFrame implements ActionListener {
         mySortButton.addActionListener(this);
         
         myFileShareMenu.addActionListener(this);
+        mySettings.addActionListener(this);
     }
     
     private void displayHome() {
@@ -372,6 +374,11 @@ public class HomePage extends JFrame implements ActionListener {
             myEmail = set.getEmail();
             myName = set.getName();
             
+        }else if(theEvent.getSource() == mySettings) {
+        	SettingPopUp set = new SettingPopUp(myEmail, myName);
+        	myEmail = set.getEmail();
+        	myName = set.getName();
+        	
         }
     }
     
