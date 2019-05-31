@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -75,7 +76,7 @@ public class AddPage extends JFrame implements ChangeListener, ActionListener {
 	private JButton myMatAdd;
     private Application myApp;
 
-	private JToggleButton myStatus;
+	private JCheckBox myStatus;
 	/**
 	 * @author Gehry Guest
 	 * @author Joseph Rushford
@@ -95,7 +96,7 @@ public class AddPage extends JFrame implements ChangeListener, ActionListener {
         final JLabel imgLabel = new JLabel("",
                                         new ImageIcon("./Resources/HomePage BackGround.png"), 
                                         SwingConstants.CENTER);
-        myStatus = new JToggleButton("Enviromental Friendly");
+        myStatus = new JCheckBox("Enviromental Friendly");
         
         createSliders();
         container.add(panel, BorderLayout.CENTER);

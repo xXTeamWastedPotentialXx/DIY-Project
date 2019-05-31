@@ -9,18 +9,13 @@ import javax.swing.ImageIcon;
 /**
  * A implementation of Action that will "toggle" between two states. 
  * 
- * @author Charles Bryan
+
  * @author Joseph Rushford
- * @version Autumn 2018
  */
 public class ToggleAction extends AbstractAction 
 {
 
-    /**  
-     * A generated serial version UID for object Serialization. 
-     * http://docs.oracle.com/javase/7/docs/api/java/io/Serializable.html
-     */
-    private static final long serialVersionUID = 1234567890L;
+
     
     /** A flag for the toggle. */
     private boolean myFlag;
@@ -66,7 +61,7 @@ public class ToggleAction extends AbstractAction
     @Override
     public void actionPerformed(final ActionEvent theEvent) 
     {
-        //Look at the status of the toggle. 
+
         if (myFlag) 
         {
             myFirstAction.run();
