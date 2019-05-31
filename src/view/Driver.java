@@ -18,7 +18,7 @@ public final class Driver {
 
     /**
      * Private constructor, to prevent instantiation of this class.
-     * 
+     * @author gehry guest
      */
     private Driver() {
         
@@ -27,7 +27,7 @@ public final class Driver {
 
     /**
      * re-textures portions of the program with a new skin.
-     * 
+     * @author gehry guest
      */
     public static void programSkin() {
         try {
@@ -43,7 +43,7 @@ public final class Driver {
    
     /**
      * The main method, invokes the GUI. Command line arguments are ignored.
-     * 
+     * @author gehry guest
      * @param theArgs Command line arguments.
      */
     public static void main(final String[] theArgs) {

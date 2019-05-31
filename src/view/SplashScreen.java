@@ -27,8 +27,8 @@ public class SplashScreen extends JWindow {
     /** A number for Serialization. */
     private static final long serialVersionUID = -2102839873375270630L;
                     
-    /** Constant time for each update. */
-    private static final int TIMER_PAUSE = 1; 
+    /** Constant time for each update. this controls time to change splash finish time. */
+    private static final int TIMER_PAUSE = 10; 
     
     /** The width of the panel. */
     private static final int WIDTH = 600;
@@ -48,7 +48,7 @@ public class SplashScreen extends JWindow {
     
     /**
      * Initializes fields with reasonable values.
-     * 
+     * @author gehry guest
      */
     public SplashScreen() {
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -63,7 +63,7 @@ public class SplashScreen extends JWindow {
     
     /**
      * sets up containers, JPanels, and progress bar with layouts and colors.
-     * 
+     * @author gehry guest
      */
     private void setUp() {
         
@@ -74,12 +74,6 @@ public class SplashScreen extends JWindow {
         final JLabel imgLabel = new JLabel("",
                                         new ImageIcon("./Resources/App Logo_without name.png"), 
                                         SwingConstants.CENTER);
-
-//        final JLabel text = new JLabel("ADVANTAGE", SwingConstants.CENTER); //option 1
-//        final JLabel text = new JLabel("EASY HUB", SwingConstants.CENTER); //option 2
-//        final JLabel text = new JLabel("EASYNOTE", SwingConstants.CENTER); //option 3
-//        final JLabel text = new JLabel("HITask", SwingConstants.CENTER); //option 4
-//      final JLabel text = new JLabel("Outline", SwingConstants.CENTER); //option 4
         
         container.add(panel, BorderLayout.CENTER);
         
@@ -96,7 +90,7 @@ public class SplashScreen extends JWindow {
 
     /**
     * A inner class that listens for timer events.
-    * 
+    * @author gehry guest
     */
     private class TimeListener implements ActionListener {
 
