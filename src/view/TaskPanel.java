@@ -2,6 +2,7 @@ package view;
 
 import java.awt.BorderLayout;
 
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -16,31 +17,34 @@ public class TaskPanel extends JOptionPane{
 		/**
 		 * 
 		 */
-		private String myCost;
+		private boolean myState;
 		private String myName;
-		private String myAmount;
+
 		/**
 		 * @author Joseph Rushford
 		 */
-		public TaskPanel() {
-			JTextField cost = new JTextField(30);
-			JTextField name = new JTextField(30);
-			JTextField amount = new JTextField(30);
-			JPanel namePan = new JPanel();
+		public TaskPanel(String Description, boolean State) {
 
+			JTextField name = new JTextField(30);
+			JCheckBox status = new JCheckBox("Completed");
+			JPanel namePan = new JPanel();
+			JPanel statusPan = new JPanel();
+			statusPan.add(status);
 			namePan.add(new JLabel("Name:"), BorderLayout.WEST);
 			namePan.add(name, BorderLayout.EAST);
-
+			
 			JPanel[] settings = new JPanel[2];
 			name.setName("Name");
-
+			
 			settings[0] = namePan;
+			settings[1] = statusPan;
 			int confirm = JOptionPane.showConfirmDialog(null, settings, "New Task",  JOptionPane.OK_CANCEL_OPTION);
 			if(confirm == JOptionPane.OK_OPTION) {
-
+				myState = status.isSelected();
 				myName = name.getText();
 			} else {
 				myName = "No Name Given";
+				myState = false;
 			}
 		
 		}
@@ -48,7 +52,7 @@ public class TaskPanel extends JOptionPane{
 		 * @author Joseph Rushford
 		 */
 		public Tasks returnTask() {
-			Tasks newTask = new Tasks(myName);
+			Tasks newTask = new Tasks(myName, myState);
 
 			return newTask;
 		}

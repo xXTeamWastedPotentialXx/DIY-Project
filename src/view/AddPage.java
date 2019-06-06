@@ -3,6 +3,8 @@ package view;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
@@ -28,12 +31,6 @@ import model.Materials;
 import model.Project;
 import model.Tasks;
 
-/**
- * 
- * @author gehry guest
- * @author Joseph Rushford
- *
- */
 public class AddPage extends JFrame implements ChangeListener, ActionListener {
 	
     /**
@@ -73,13 +70,15 @@ public class AddPage extends JFrame implements ChangeListener, ActionListener {
     private JTabbedPane myTab;
     private JScrollPane myMats;
     private JScrollPane myTsks;
-
+    private JPanel MaterialPanel;
 	private JButton myTaskAdd;
 
 	private JButton myMatAdd;
     private Application myApp;
 
 	private JCheckBox myStatus;
+
+	private JPanel TaskPanels;
 	/**
 	 * @author Gehry Guest
 	 * @author Joseph Rushford
@@ -90,12 +89,16 @@ public class AddPage extends JFrame implements ChangeListener, ActionListener {
         myApp = theApp;
         final Container container = getContentPane();
         myHome = theHome;
-        final JPanel panel = new JPanel(new GridLayout(0, 1, 0, 20));
-        myMats = new JScrollPane();
-        myTsks = new JScrollPane();
+        MaterialPanel = new JPanel();
+        TaskPanels = new JPanel();
+        TaskPanels.setLayout(new GridLayout(0, 1));
+        MaterialPanel.setLayout(new GridLayout(0, 1));
+        final JPanel panel = new JPanel(new GridLayout(0, 1, 0, 10));
+        myMats = new JScrollPane(MaterialPanel);
+        myTsks = new JScrollPane(TaskPanels);
         myTab = new JTabbedPane();
 
-        
+
         final JLabel imgLabel = new JLabel("",
                                         new ImageIcon("./Resources/HomePage BackGround.png"), 
                                         SwingConstants.CENTER);
@@ -122,9 +125,9 @@ public class AddPage extends JFrame implements ChangeListener, ActionListener {
         myMatPan.add(new JLabel("Materials:"));
         myMatPan.add(myMatAdd);
         panel.add(myMatPan);
-
+        
         panel.add(myTaskPan);
-        panel.add(myStatus);
+        panel.add(myStatus, BorderLayout.CENTER);
         createTabPanes();
         
         JPanel diffPan = new JPanel();
@@ -138,13 +141,13 @@ public class AddPage extends JFrame implements ChangeListener, ActionListener {
 
         panel.add(priorPan);
         //panel.add(priorPan, BorderLayout.SOUTH);
-        container.add(panel, BorderLayout.CENTER);
+        container.add(panel, BorderLayout.WEST);
         final JPanel buttonOptions = new JPanel();
         myConfirmButton = new JButton("Confirm");
         myCancelButton = new JButton("Cancel");
         buttonOptions.add(myConfirmButton);
         buttonOptions.add(myCancelButton);
-        panel.add(myTab);
+        container.add(myTab);
         container.add(buttonOptions, BorderLayout.SOUTH);
         myConfirmButton.addActionListener(this);
         myCancelButton.addActionListener(this);
@@ -163,7 +166,7 @@ public class AddPage extends JFrame implements ChangeListener, ActionListener {
     
     /**
      * creates the slider for the thickness menu.
-     * @author gehry guest
+     * 
      */
     public void createSliders() {
         final int increment = 5;
@@ -204,6 +207,8 @@ public class AddPage extends JFrame implements ChangeListener, ActionListener {
     public void createTabPanes() {
     	myTab.add("Materials", myMats);
     	myTab.add("Tasks", myTsks);
+    	myMaterials = new ArrayList<Materials>();
+    	myTasks = new ArrayList<Tasks>();
     }
 
    /**
@@ -262,7 +267,7 @@ public class AddPage extends JFrame implements ChangeListener, ActionListener {
 	 */
     @Override
     public void actionPerformed(final ActionEvent theEvent) {
-        
+        //Work in progress Needs the mainpage/filemanager done actually add
         if (theEvent.getSource() == myConfirmButton) {
             Project test = new Project("Test");
             //myApp.addProject(new Project(myName.getText(), myDifficultyValue, myPriortyValue, myStatus.isSelected(), myTasks, myMaterials));
@@ -274,18 +279,51 @@ public class AddPage extends JFrame implements ChangeListener, ActionListener {
             this.setVisible(false);
             myHome.setVisible(true);
         } else if( theEvent.getSource() == myMatAdd) {
-    		MaterialPanel addMat = new MaterialPanel();
-    		//if(addMat.returnMat().getCost() >= 0) {
-    			//myMaterials.add(addMat.returnMat());
-    			myMats.add(new JToggleButton("test"));
-    		
-    		//}
+    		MaterialPanel addMat = new MaterialPanel("new material", "cost", "quantity");
+    		Materials newMat = addMat.returnMat();
+    		if(newMat.getCost() > 0) {
+    			myMaterials.add(newMat);
+
+    			String matInfo = "	Name: " + newMat.getName() + "       Cost: " + 
+    						Double.toString(newMat.getCost()) + "       Quantity: " + 
+    						Integer.toString(newMat.getQuantity());
+    			JLabel newLab = new JLabel(matInfo);
+    			//JButton newButton = new JButton(newMat.getName());
+    			//newButton.addActionListener(new ActionListener() {
+    				//public void actionPerformed(ActionEvent e) {
+    			//		MaterialPanel currentBut = new MaterialPanel(newMat.getName(), 
+    				//												Double.toString(newMat.getCost()), 
+    			//													Integer.toString(newMat.getQuantity()));
+    			//		myMaterials.remove(newMat);
+    			//		newButton.setText(currentBut.returnMat().getName());
+    			//		if (currentBut.returnMat().getCost() > 0) {
+    			//			myMaterials.add(currentBut.returnMat());
+    			//		}
+    			//	}
+    		//	} );
+    				
+    			MaterialPanel.add(newLab);
+    			
+    			myMats.revalidate();
+
+    		}
     	
     	}else if( theEvent.getSource() == myTaskAdd) {
-    		TaskPanel addMat = new TaskPanel();
-    		//myTasks.add(addMat.returnTask());
-    		myTsks.add(new JToggleButton("test"));
-
+    		TaskPanel addTask = new TaskPanel("description", false);
+    		Tasks newTask = addTask.returnTask();
+    		myTasks.add(newTask);
+    		myMats.setPreferredSize(new Dimension(100, 250));
+    		String TaskInfo;
+    		if(newTask.isCompleted()) {
+    			TaskInfo = "	Name: " + newTask.getName() + "    Completed: Yes";
+    		}else {
+    			TaskInfo = "	Name: " + newTask.getName() + "    Completed: No";
+    		}
+    			JLabel newLab = new JLabel(TaskInfo);
+    			myTasks.add(addTask.returnTask());
+    			TaskPanels.add(newLab);
+    			myTsks.revalidate();
+    		
     	}
     }
 }

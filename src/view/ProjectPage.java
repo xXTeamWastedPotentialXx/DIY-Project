@@ -291,7 +291,7 @@ public class ProjectPage extends JFrame implements ChangeListener, ActionListene
             this.setVisible(false);
             myHome.setVisible(true);
         } else if( theEvent.getSource() == myMatAdd) {
-    		MaterialPanel addMat = new MaterialPanel();
+        	MaterialPanel addMat = new MaterialPanel("new material", "cost", "quantity");
     		//if(addMat.returnMat().getCost() >= 0) {
     			//myMaterials.add(addMat.returnMat());
     			myMats.add(new JToggleButton("test"));
@@ -299,7 +299,7 @@ public class ProjectPage extends JFrame implements ChangeListener, ActionListene
     		//}
     	
     	}else if( theEvent.getSource() == myTaskAdd) {
-    		TaskPanel addMat = new TaskPanel();
+    		TaskPanel addMat = new TaskPanel("description", false);
     		//myTasks.add(addMat.returnTask());
     		myTsks.add(new JToggleButton("test"));
 

@@ -23,13 +23,19 @@ public class Tasks {
 	 * Constructs a Task object.
 	 * @param theName the name of the Task.
 	 */
-	public Tasks(final String theName){
-		
+	 public Tasks(final String theName, final boolean isCompleted){
 		name = theName;
-		
-		//Assume that on creation the Task has not been completed yet.
-		completed = false;
-	}
+		completed = isCompleted;
+	 }
+	
+	 public String getName() {
+		 return name;
+	 } 
+	
+	 public boolean isCompleted() {
+		 return completed;
+	 }
+
 	
 	/**
 	 * Toggles completion of Task.

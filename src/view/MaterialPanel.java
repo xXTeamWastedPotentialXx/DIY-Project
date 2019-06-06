@@ -21,10 +21,13 @@ public class MaterialPanel extends JOptionPane{
 		/**
 		 * @author Joseph Rushford
 		 */
-		public MaterialPanel() {
+		public MaterialPanel(String theName, String theCost, String theQuantity) {
 			JTextField cost = new JTextField(30);
 			JTextField name = new JTextField(30);
 			JTextField amount = new JTextField(30);
+			name.setText(theName);
+			cost.setText(theCost);
+			amount.setText(theQuantity);
 			JPanel namePan = new JPanel();
 			JPanel costPan = new JPanel();
 			JPanel amountPan = new JPanel(); 

@@ -37,7 +37,7 @@ public class Project {
     /** List of materials for projects. */
     private ArrayList<Materials> myMaterials;
     
-    
+    private int myProjectID;
     /**
      * 
      * @param theName
@@ -47,18 +47,24 @@ public class Project {
      * @param theTasks
      * @param theMats
      * @author gehry guest
+     * @author Jacob Marquardt
      */
-    public Project(final String theName, int theDifficulty, int thePriority, boolean theStatus,
-    			ArrayList<Tasks> theTasks, ArrayList<Materials> theMats) {
-        
-        myEnvironmentallyFriendly = theStatus;
-        myDifficultly = theDifficulty;
-        myPriorityOfProject = thePriority;
-        myProjectName = theName;
-        myTasks = theTasks;
-        myMaterials = theMats;
-    }
-    
+	private int projectID;
+ 
+ 	 public Project(int theProjectID, String theName, int theDifficulty, int thePriorty, boolean theStatus,
+			ArrayList<Tasks> theTasks, ArrayList<Materials> theMats) {
+
+			myProjectID = theProjectID;
+		    
+			myEnvironmentallyFriendly = theStatus;
+		    
+		    myDifficultly = theDifficulty;
+		    
+		    myPriorityOfProject = thePriorty;
+		    myProjectName = theName;
+		    myTasks = theTasks;
+		    myMaterials = theMats;
+ 	 }
     
     /** 
      * @param theName
@@ -67,9 +73,15 @@ public class Project {
     public Project(final String theName) {
     	myProjectName = theName;
     }
-    
+ 
     //########## Getters ############
-    
+    /**
+     * @author Jacob Marquardt
+     * @return myProjectID
+     */
+    public int getProjectID() {
+    	return myProjectID;
+    }
     /** 
      * @return myTotalCost
      * @author gehry guest
