@@ -358,27 +358,12 @@ public class HomePage extends JFrame implements ActionListener {
 
         final int returnValue = myOpenFile.showOpenDialog(null); 
 
-        if (returnValue == JFileChooser.APPROVE_OPTION) {
-            try {
-                
-                myLocation = myOpenFile.getCurrentDirectory();
-                
-                final Scanner file = new Scanner(myOpenFile.getSelectedFile());
-                
-                if (file.hasNext()) {
-                    
-                    myEmail = file.next();
-                }
-                if (file.hasNext()) {
-                    
-                    myName = file.next();
-                }
-                
-                myApp.loadProjects(file);
-            } catch (final FileNotFoundException e) {
-                
-                JOptionPane.showMessageDialog(null, "File Not Found"); 
-            }
+        if (returnValue == JFileChooser.APPROVE_OPTION) {                
+        		myLocation = myOpenFile.getCurrentDirectory();                
+                final File file = myOpenFile.getSelectedFile();
+                myApp.loadAllEntries(file);
+                myName = myApp.getUsername();
+                myEmail = myApp.getUserEmail();
         }
     }
     

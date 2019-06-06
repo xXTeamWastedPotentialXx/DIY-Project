@@ -56,6 +56,11 @@ public class Application {
 		theProjects = new ArrayList<Project>();
 	}
 	
+	/**
+	 * 
+	 * @param theCsv
+	 * @author Jacob Marquardt
+	 */
 	public Application(final File theCsv) {
 		theProjects = new ArrayList<Project>();
 		csv = theCsv;
@@ -64,6 +69,7 @@ public class Application {
 	/**
 	 * Adds a new project to theProjects or replaces an existing project depending on Project ID and updates csv accordingly.
 	 * @param theNewProject
+	 * @author Jacob Marquardt
 	 */
 	public void addProject(final Project theNewProject) {
 		if (theNewProject.getProjectID() > theProjects.size()) {
@@ -78,6 +84,7 @@ public class Application {
 	/**
 	 * Removes project with the specified ID from theProjects, updates following project IDs to keep ordering correct, and updates csv accordingly.
 	 * @param projectID
+	 * @author Jacob Marquardt
 	 */
 	public void deleteProject(final int projectID) {
 		theProjects.remove(projectID - 1);
@@ -94,6 +101,7 @@ public class Application {
 	/**
 	 * Parses the username, email, and projects from a .csv file.
 	 * @param theCsv the .csv file being parsed
+	 * @author Jacob Marquardt
 	 */
 	public void loadAllEntries(final File theCsv) {
 		try (Scanner scan = new Scanner(theCsv);) {
@@ -166,6 +174,10 @@ public class Application {
 		}
 	}
 	
+	/**
+	 * Writes all current application info to csv.
+	 * @author Jacob Marquardt
+	 */
 	private void write() {
 		try (FileWriter writer = new FileWriter(csv);) {
 			StringBuilder str = new StringBuilder();
@@ -228,18 +240,38 @@ public class Application {
 	 * Getters.
 	 */
     
+	/**
+	 * Getter for theProjects.
+	 * @return theProjects
+	 * @author Jacob Marquardt
+	 */
 	public ArrayList<Project> getProjects() {
 		return theProjects;
 	}
 	
+	/**
+	 * Getter for username.
+	 * @return username
+	 * @author Jacob Marquardt
+	 */
 	public String getUsername() {
 		return username;
 	}
 	
+	/**
+	 * Getter for userEmail.
+	 * @return userEmail
+	 * @author Jacob Marquardt
+	 */
 	public String getUserEmail() {
 		return userEmail;
 	}
 	
+	/**
+	 * Getter for csv
+	 * @return csv
+	 * @author Jacob Marquardt
+	 */
 	public File getCsv() {
 		return csv;
 	}
@@ -251,6 +283,7 @@ public class Application {
 	/**
 	 * Changes username to the argument passed and updates csv accordingly.
 	 * @param theUsername
+	 * @author Jacob Marquardt
 	 */
 	public void setUsername(final String theUsername) {
 		username = theUsername;
@@ -260,12 +293,17 @@ public class Application {
 	/**
 	 * Changes userEmail to the argument passed and updates csv accordingly.
 	 * @param theUserEmail
+	 * @author Jacob Marquardt
 	 */
 	public void setUserEmail(final String theUserEmail) {
 		userEmail = theUserEmail;
 		write();
 	}
 	
+	/**
+	 * toString for testing purposes.
+	 * @author Jacob Marquardt
+	 */
 	public String toString() {
 		StringBuilder out = new StringBuilder(String.format("Username: %s\tEmail: %s\n", username, userEmail));
 		for (Project p : theProjects) {

@@ -48,9 +48,7 @@ public class Project {
      * @param theMats
      * @author gehry guest
      * @author Jacob Marquardt
-     */
-	private int projectID;
- 
+     */ 
  	 public Project(int theProjectID, String theName, int theDifficulty, int thePriorty, boolean theStatus,
 			ArrayList<Tasks> theTasks, ArrayList<Materials> theMats) {
 
@@ -76,8 +74,8 @@ public class Project {
  
     //########## Getters ############
     /**
-     * @author Jacob Marquardt
      * @return myProjectID
+     * @author Jacob Marquardt
      */
     public int getProjectID() {
     	return myProjectID;
@@ -161,7 +159,7 @@ public class Project {
      * @author Jacob Marquardt
      */
     public void setProjectID(final int theProjectID) {
-    	this.projectID = theProjectID;
+    	this.myProjectID = theProjectID;
     }
     
     /** 
