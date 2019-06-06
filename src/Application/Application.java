@@ -65,6 +65,14 @@ public class Application {
 		theProjects = new ArrayList<Project>();
 		csv = theCsv;
 	}
+	
+	/**
+	 * Leaving this here for now just so that HomePage isn't broken
+	 * @param theFile
+	 */
+	public void loadProjects(final Scanner theFile) {
+
+	}
 
 	/**
 	 * Adds a new project to theProjects or replaces an existing project depending on Project ID and updates csv accordingly.
