@@ -156,6 +156,14 @@ public class Project {
     
     //########## Setters ############
     
+    /**
+     * @param theProjectID
+     * @author Jacob Marquardt
+     */
+    public void setProjectID(final int theProjectID) {
+    	this.projectID = theProjectID;
+    }
+    
     /** 
      * @param theTotalCost
      * @author gehry guest

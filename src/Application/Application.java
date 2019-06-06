@@ -2,6 +2,7 @@ package Application;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -10,33 +11,98 @@ import model.Materials;
 import model.Project;
 import model.Tasks;
 
+/*
+ * Notes:
+ * - Operates under the assumption that projectIDs will be in order, starting at 1.
+ * - Not made to handle invalid formatting of .csv
+ * 				
+ * Example structure of .csv file:
+ * 
+ * - For all boolean values, I used 0 for false and 1 for true.
+ * - If a project has no tasks, the task line will just say "notasks"; same for materials but "nomaterials" instead. I did this just for simplicity in the parsing algorithm.
+ * 
+ * |------------------------------------------------------------------------------------------------------------------------|
+ * |username		|																										|
+ * |------------------------------------------------------------------------------------------------------------------------|
+ * |email			|																										|
+ * |------------------------------------------------------------------------------------------------------------------------|
+ * |project ID		| project name						| difficulty					| priority	| theStatus (0 or 1)	|
+ * |------------------------------------------------------------------------------------------------------------------------|
+ * |task 1 name		| task 1 completed or not (0 or 1)	| (repeat for remaining tasks)										|
+ * |------------------------------------------------------------------------------------------------------------------------|
+ * |material 1 name	| material 1 cost					| material 1 quantity			| (repeat for remaining materials)	|
+ * |------------------------------------------------------------------------------------------------------------------------|
+ * |(repeat for remaining projects) 																						|
+ * |------------------------------------------------------------------------------------------------------------------------|
+ */
+
+/**
+ * Class that holds username, email, and projects and handles the .csv file where it's all stored.
+ * @author (whoever worked on this class originally, idk)
+ * @author Jacob Marquardt
+ *
+ */
 public class Application {
-	private String myUser;
-	private String myEmail;
+	
+	private String username;
+	
+	private String userEmail;
+	
 	private ArrayList<Project> theProjects;
+	
+	private File csv;
+	
 	public Application() {
 		theProjects = new ArrayList<Project>();
 	}
 	
-	public void loadProjects(final Scanner theFile) {
+	public Application(final File theCsv) {
+		theProjects = new ArrayList<Project>();
+		csv = theCsv;
+	}
 
-	}
-	public void addProject(Project theNewProject) {
-		theProjects.add(theNewProject);
-	}
-    
 	/**
-	 * Parses the (username, email, and) projects from the .csv file.
-	 * @return an Application object containing the (username, email, and) projects from the .csv file.
+	 * Adds a new project to theProjects or replaces an existing project depending on Project ID and updates csv accordingly.
+	 * @param theNewProject
 	 */
-	public Application loadAllEntries() {
-		Application app = new Application();
-		try (Scanner scan = new Scanner(csv)) {
+	public void addProject(final Project theNewProject) {
+		if (theNewProject.getProjectID() > theProjects.size()) {
+			theProjects.add(theNewProject);	
+		} else {
+			theProjects.remove(theNewProject.getProjectID() - 1);
+			theProjects.add(theNewProject.getProjectID() - 1, theNewProject);
+		}
+		write();
+	}
+	
+	/**
+	 * Removes project with the specified ID from theProjects, updates following project IDs to keep ordering correct, and updates csv accordingly.
+	 * @param projectID
+	 */
+	public void deleteProject(final int projectID) {
+		theProjects.remove(projectID - 1);
+		for (int i = projectID - 1; i < theProjects.size(); i++) {
+			theProjects.get(i).setProjectID(theProjects.get(i).getProjectID() - 1);
+		}
+		write();
+	}
+		
+	public void loadAllEntries() {
+		loadAllEntries(csv);
+	}
+	
+	/**
+	 * Parses the username, email, and projects from a .csv file.
+	 * @param theCsv the .csv file being parsed
+	 */
+	public void loadAllEntries(final File theCsv) {
+		try (Scanner scan = new Scanner(theCsv);) {
 			if (scan.hasNext()) {
-//				This is here because I'm hoping we'll just save username and email in Application.java because 
-//				I think it makes more sense
-				String userName = scan.nextLine().split(",")[0];
-				String userEmail = scan.nextLine().split(",")[0];
+//				Clearing existing projects because they'll be overwritten
+				theProjects.clear();
+
+				username = scan.nextLine().split(",")[0];
+				userEmail = scan.nextLine().split(",")[0];
 				
 				String[] line;
 				int projectID;
@@ -89,7 +155,7 @@ public class Application {
 					}
 					
 //					Adds project to app and clears tasks & materials to be used for the next project
-					app.addProject(new Project(projectID, projectName, difficulty, priority, ecoFriendly, new ArrayList<Tasks>(tasks), new ArrayList<Materials>(materials)));
+					theProjects.add(new Project(projectID, projectName, difficulty, priority, ecoFriendly, new ArrayList<Tasks>(tasks), new ArrayList<Materials>(materials)));
 					tasks.clear();
 					materials.clear();
 				}
@@ -98,10 +164,113 @@ public class Application {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		return app;
 	}
+	
+	private void write() {
+		try (FileWriter writer = new FileWriter(csv);) {
+			StringBuilder str = new StringBuilder();
+//			Add username and email
+			str.append(username).append("\n");
+			str.append(userEmail).append("\n");
+//			Iterate over all projects
+			for (Project p : theProjects) {
+//				Add ID, name, difficulty, priority, and 1 or 0 if environmentally friendly or not respectively
+				str.append(p.getProjectID()).append(",");
+				str.append(p.getProjectName()).append(",");
+				str.append(p.getDifficultly()).append(",");
+				str.append(p.getPriority()).append(",");
+				if (p.getEnviromentallyFriendly()) {
+					str.append(1);
+				} else {
+					str.append(0);
+				}
+				str.append("\n");
+//				Add tasks if there are any, or "notasks" if there are not
+				if (p.getTasks().size() >= 1) {
+//					Iterate over every task in current project
+					for (Tasks t : p.getTasks()) {
+//						Add name, and 1 or 0 if completed or not respectively
+						str.append(t.getName()).append(",");
+						if (t.isCompleted()) {
+							str.append(1);
+						} else {
+							str.append(0);
+						}
+						str.append(",");
+					}
+				} else {
+					str.append("notasks");
+				}
+				str.append("\n");
+//				Add materials if there are any, or "nomaterials" if there are not
+				if (p.getMaterials().size() >= 1) {
+//					Iterate over over material in current project
+					for (Materials m : p.getMaterials()) {
+//						Add name, cost, and quantity
+						str.append(m.getName()).append(",");
+						str.append(m.getCost()).append(",");
+						str.append(m.getQuantity()).append(",");
+					}
+				} else {
+					str.append("nomaterials");
+				}
+				str.append("\n");
+			}
+//			Write it all to csv
+			writer.write(str.toString());
+			writer.close();
+		} catch (final IOException e) {
+			e.printStackTrace();
+		}
+	}
+		
+	/*
+	 * Getters.
+	 */
+    
 	public ArrayList<Project> getProjects() {
 		return theProjects;
 	}
-
+	
+	public String getUsername() {
+		return username;
+	}
+	
+	public String getUserEmail() {
+		return userEmail;
+	}
+	
+	public File getCsv() {
+		return csv;
+	}
+	
+	/*
+	 * Setters.
+	 */
+	
+	/**
+	 * Changes username to the argument passed and updates csv accordingly.
+	 * @param theUsername
+	 */
+	public void setUsername(final String theUsername) {
+		username = theUsername;
+		write();
+	}
+	
+	/**
+	 * Changes userEmail to the argument passed and updates csv accordingly.
+	 * @param theUserEmail
+	 */
+	public void setUserEmail(final String theUserEmail) {
+		userEmail = theUserEmail;
+		write();
+	}
+	
+	public String toString() {
+		StringBuilder out = new StringBuilder(String.format("Username: %s\tEmail: %s\n", username, userEmail));
+		for (Project p : theProjects) {
+			out.append(p.toString()).append("\n");
+		}
+		return out.toString();
+	}
 }
