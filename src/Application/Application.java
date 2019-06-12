@@ -53,7 +53,15 @@ public class Application {
 	private File csv;
 	
 	public Application() {
+		Project bbqPit = new Project("BBQ Pit", 3, 9);
+		Project dogHouse = new Project("Dog House", 6, 8);
+		Project solarPanels = new Project("Solar Panels", 10, 2);
 		theProjects = new ArrayList<Project>();
+		theProjects.add(bbqPit);
+		theProjects.add(dogHouse);
+		theProjects.add(solarPanels);
+
+		
 	}
 	
 	/**
@@ -78,15 +86,20 @@ public class Application {
 	 * Adds a new project to theProjects or replaces an existing project depending on Project ID and updates csv accordingly.
 	 * @param theNewProject
 	 * @author Jacob Marquardt
+	 * 
+	 * working on fixing this method : Miranda
 	 */
 	public void addProject(final Project theNewProject) {
-		if (theNewProject.getProjectID() > theProjects.size()) {
-			theProjects.add(theNewProject);	
-		} else {
-			theProjects.remove(theNewProject.getProjectID() - 1);
-			theProjects.add(theNewProject.getProjectID() - 1, theNewProject);
-		}
-		write();
+		theProjects.add(theNewProject);
+		
+		
+//		if (theNewProject.getProjectID() > theProjects.size()) {
+//			theProjects.add(theNewProject);	
+//		} else {
+//			theProjects.remove(theNewProject.getProjectID() - 1);
+//			theProjects.add(theNewProject.getProjectID() - 1, theNewProject);
+//		}
+//		write();
 	}
 	
 	/**
@@ -105,6 +118,17 @@ public class Application {
 	public void loadAllEntries() {
 		loadAllEntries(csv);
 	}
+	
+	
+	
+	/**
+	 * Getter for the projects array
+	 * @author Miranda Bessex
+	 */
+	public ArrayList<Project> getProjectList(){
+		return theProjects;
+	}
+	
 	
 	/**
 	 * Parses the username, email, and projects from a .csv file.

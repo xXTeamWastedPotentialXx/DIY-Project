@@ -63,6 +63,21 @@ public class Project {
 		    myTasks = theTasks;
 		    myMaterials = theMats;
  	 }
+ 	 
+	 /**
+	  * Additional constructor that just needs a name, difficulty, and priority
+	  * @param theName
+	  * @param theDifficultly
+	  * @param thePriority
+	  * @author Miranda Bessex
+	  */
+ 	 
+ 	 public Project(final String theName, final int theDiff, final int thePriority) {
+ 		myProjectName = theName;
+ 		myDifficultly = theDiff;
+ 		myPriorityOfProject = thePriority;
+ 		 
+ 	 }
     
     /** 
      * @param theName
@@ -257,4 +272,29 @@ public class Project {
         
     	this.myMaterials.remove(theMaterial);
     }
+    
+    /**
+     * This will be the string that is displayed in the home page list
+     * @override toString() method
+     * @author Miranda Bessex
+     */
+    public String toString() {
+    	String spacer = "     ";
+    	StringBuilder projectDetails = new StringBuilder();
+    	projectDetails.append(myProjectName);
+    	projectDetails.append(spacer);
+    	projectDetails.append("Priority: ");
+    	projectDetails.append(myPriorityOfProject);
+    	projectDetails.append(spacer);
+    	projectDetails.append("Difficulty: ");
+    	projectDetails.append(myDifficultly);
+    	projectDetails.append(spacer);
+
+    	
+    	
+    	
+		return projectDetails.toString();
+    	
+    }
+    
 }

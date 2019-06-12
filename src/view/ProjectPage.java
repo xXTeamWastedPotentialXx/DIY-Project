@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -75,7 +76,7 @@ public class ProjectPage extends JFrame implements ChangeListener, ActionListene
 	private JButton myMatAdd;
     private Application myApp;
 
-	private JToggleButton myStatus;
+	private JCheckBox myStatus;
 	/**
 	 * @author Gehry Guest
 	 * @author Joseph Rushford
@@ -95,7 +96,7 @@ public class ProjectPage extends JFrame implements ChangeListener, ActionListene
         final JLabel imgLabel = new JLabel("",
                                         new ImageIcon("./Resources/HomePage BackGround.png"), 
                                         SwingConstants.CENTER);
-        myStatus = new JToggleButton("Enviromental Friendly");
+        myStatus = new JCheckBox("Enviromental Friendly");
         myStatus.setSelected(theProject.getEnviromentallyFriendly());
         
         createSliders();
@@ -142,8 +143,10 @@ public class ProjectPage extends JFrame implements ChangeListener, ActionListene
         container.add(panel, BorderLayout.WEST);
         final JPanel buttonOptions = new JPanel();
         myEditButton = new JButton("Edit");
+        myEditButton.setEnabled(false);
         myCancelButton = new JButton("Cancel");
         myDeleteButton = new JButton("Delete");
+        myDeleteButton.setEnabled(false);
         buttonOptions.add(myEditButton);
         buttonOptions.add(myCancelButton);
         buttonOptions.add(myDeleteButton);
@@ -281,9 +284,6 @@ public class ProjectPage extends JFrame implements ChangeListener, ActionListene
         
         if (theEvent.getSource() == myEditButton) {
         	myEditButton.setText("Confirm");
-            Project test = new Project("Test");
-            //myApp.addProject(new Project(myName.getText(), myDifficultyValue, myPriortyValue, myStatus.isSelected(), myTasks, myMaterials));
-            myApp.addProject(test);
             this.setVisible(false);
             myHome.setVisible(true);
      

@@ -263,17 +263,25 @@ public class AddPage extends JFrame implements ChangeListener, ActionListener {
     	}
     }
 	/**
+	 * Monitors and redirects to diferent pages for all of the actions availible
+	 * @author Miranda Bessex
 	 * @author Joseph Rushford
 	 */
     @Override
     public void actionPerformed(final ActionEvent theEvent) {
         //Work in progress Needs the mainpage/filemanager done actually add
         if (theEvent.getSource() == myConfirmButton) {
-            Project test = new Project("Test");
-            //myApp.addProject(new Project(myName.getText(), myDifficultyValue, myPriortyValue, myStatus.isSelected(), myTasks, myMaterials));
-            //myApp.addProject(test);
+        	
+        	//Create a new project and add that project to the application
+            myApp.addProject(new Project(8, myName.getText(), myDifficultyValue, myPriortyValue, myStatus.isSelected(), myTasks, myMaterials));	
+        	
+            //reset the list on the home page
+            myHome.setUpList(myApp);
+        	
+            //return to home page
             this.setVisible(false);
             myHome.setVisible(true);
+            
      
         } else if (theEvent.getSource() == myCancelButton) {
             this.setVisible(false);

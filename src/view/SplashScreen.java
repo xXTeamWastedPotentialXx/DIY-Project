@@ -43,7 +43,7 @@ public class SplashScreen extends JWindow {
     private Timer mySplashTimer;
 
     /** loading time. */
-    private final int myLoadingTime = 100;
+    private final int myLoadingTime = 500;
     
     
     /**

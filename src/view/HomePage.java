@@ -8,18 +8,25 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
+
+import javax.swing.BoxLayout;
 import javax.swing.ButtonModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -28,17 +35,24 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
 import Application.Application;
+import model.Project;
+import model.User;
 
 /**
  * Class to start splash screen for DIY project.
+ * Represents the home screen of the application when first opened up. 
  * 
  * @author gehry guest
  * @author joseph rushford
+ * @author Miranda Bessex
  * @version 1.7.44
  */
+
 public class HomePage extends JFrame implements ActionListener {
     
     /** A number for Serialization. */
@@ -50,9 +64,12 @@ public class HomePage extends JFrame implements ActionListener {
     /** The height of the panel. */
     private static final int HEIGHT = 700;
     
-    /** */
+    /** The application reference */
     private Application myApp;
     
+    /** The current User of the application */
+    private User myUser;
+     
     /** To bring up directory for user. */
     private final JFileChooser myOpenFile;
     
@@ -90,13 +107,11 @@ public class HomePage extends JFrame implements ActionListener {
     private File myLocation;
     
     /** Creates list for projects. */
-    private JList myList;
-
-    /** String for taking users email. */
-    private String myEmail;
-
-    /** String for taking users name. */
-    private String myName;
+    private ArrayList<JButton> myProjectButtons;
+    
+    private JPanel mainPanel;
+    
+    private HomePage myHomePage;
 
     
  
@@ -106,9 +121,9 @@ public class HomePage extends JFrame implements ActionListener {
      * @author gehry guest
      */
     public HomePage() {
-        myEmail = "Email not Given";
-        
-        myName = "Name not Given";
+    	myApp = new Application();
+    	
+    	userLogIn();
         
         myOpenFile = new JFileChooser();
         
@@ -134,8 +149,23 @@ public class HomePage extends JFrame implements ActionListener {
         
         mySettings = new JMenuItem("Settings");
         
+        mainPanel = new JPanel();
+        
+        myProjectButtons = new ArrayList<JButton>();
+        
+        myHomePage = this;
+        
         setUp();
     }
+    
+    private void userLogIn() {
+    	String name = JOptionPane.showInputDialog("Enter Username: ");
+    	String email = JOptionPane.showInputDialog("Enter Email: ");
+    	
+    	myUser = new User(name, email);
+    }
+    
+    
     
     
     /**
@@ -145,12 +175,16 @@ public class HomePage extends JFrame implements ActionListener {
     private void setUp() {
         
         final Container container = getContentPane();
-
-        final JPanel mainPanel = new JPanel();
+        
+        setUpList(myApp);
+        
+        setUpMenuBar();
         
         setUpMainPanel(mainPanel);
         
         container.add(mainPanel, BorderLayout.CENTER);
+        
+    
  
         displayHome();
     }
@@ -272,44 +306,68 @@ public class HomePage extends JFrame implements ActionListener {
 
     /**
      * This is where we populate the list that appears on the GUI.
+     * Needed to make this public so it can be visible from the add page --Miranda
+     * @author Miranda Bessex
      * @author gehry guest
      */
-    private void setUpList() {
+    void setUpList(Application myApp) {
+    	
+    	myProjectButtons.clear();
+             
+        ArrayList<Project> projectsList = myApp.getProjectList();
         
-        final String[] col = {"Project: DogHouse \n Difficultly: 3  Tasks Completed: 0/10","erw","wer","erw", "we", "dew", "ewr","45","4","re","fg","fgdfg","dgdfg,","dgdfgdfgd","dfgdgdg","dfgd"};
+        for(Project p: projectsList) {
+        	//Uses the toString method in the project class to know what to display
+        	ProjectButton button = new ProjectButton(p);
+        	//button.setOpaque(false);
+        	button.setContentAreaFilled(false);
+        	button.setHorizontalAlignment(SwingConstants.LEFT);
+        	button.setBorderPainted(true);
+        	button.setPreferredSize(new Dimension(500, 200));
+        	button.setFont(new Font("Arial", Font.BOLD, 20));
+        	button.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					myHomePage.setVisible(false);
+					new ProjectPage(myHomePage, myApp, button.getProject());
+				}
+        	});
+        	
+        	myProjectButtons.add(button);
+        }  
         
-        myList = new JList(col);
-        
-        myList.setVisibleRowCount(10);
-        
-        myList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-        
-        myList.setLayoutOrientation(JList.VERTICAL);
-        
-        myList.setFixedCellHeight(60);
-        
-        myList.setFixedCellWidth(580);
+        setUpMainPanel(mainPanel);
     }
     
 
     /**
      * creates the main panel which everything is built off of.
+     * Added remove all to start it off to clear previous stuff out --Miranda
      * @param theMainPanel
      * @author gehry guest
      */
     private void setUpMainPanel(JPanel theMainPanel) {
-        
-        final JScrollPane scrollPane = new JScrollPane(myList);
-        
-        scrollPane.setPreferredSize(new Dimension(WIDTH, 500));
-        
-        setUpMenuBar();
-        
-        setUpList();
+    	
+    	theMainPanel.removeAll();
+    	
+    	final JLabel imgLabel = new JLabel("",
+                new ImageIcon("./Resources/App Logo_without name.png"), 
+                SwingConstants.CENTER);
         
         theMainPanel.add(myMenuBar, BorderLayout.NORTH);
         
-        theMainPanel.add(new JScrollPane(myList), BorderLayout.CENTER);
+        JPanel projectPanel = new JPanel();
+        projectPanel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        
+        projectPanel.setLayout(new GridLayout(10, 1));
+        projectPanel.add(imgLabel);
+        
+        for(JButton b: myProjectButtons) {
+        	projectPanel.add(b);
+        }
+        
+        theMainPanel.add(new JScrollPane(projectPanel), BorderLayout.CENTER);
         
         //add action listeners to buttons.
         myAddButton.addActionListener(this);
@@ -351,6 +409,7 @@ public class HomePage extends JFrame implements ActionListener {
     
     /**
      * @author joseph rushford
+     * @author Miranda Bessex
      */
     private void openFile() {
     
@@ -367,11 +426,11 @@ public class HomePage extends JFrame implements ActionListener {
                 
                 if (file.hasNext()) {
                     
-                    myEmail = file.next();
+                    myUser.setUserEmail(file.next());
                 }
                 if (file.hasNext()) {
-                    
-                    myName = file.next();
+                	
+                	myUser.setUserName(file.next());
                 }
                 
                 myApp.loadProjects(file);
@@ -395,7 +454,7 @@ public class HomePage extends JFrame implements ActionListener {
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             try (FileWriter export = new FileWriter(myOpenFile.getSelectedFile() + ".csv")) {
                 
-                export.write(myEmail + "\n" + myName + "\n");
+                export.write(myUser.getUserEmail() + "\n" + myUser.getUserName() + "\n");
                 
                 export.close();
             } catch (final IOException e1) {
@@ -413,7 +472,7 @@ public class HomePage extends JFrame implements ActionListener {
             this.setVisible(false);
             
             new AddPage(this, myApp);
-            
+          
         } else if (theEvent.getSource() == myAboutButton) {
             new AboutMe();
             
@@ -424,11 +483,9 @@ public class HomePage extends JFrame implements ActionListener {
             saveFile();
             
         } else if (theEvent.getSource() == mySettings) {
-            final SettingPopUp set = new SettingPopUp(myEmail, myName);
-            
-            myEmail = set.getEmail();
-            
-            myName = set.getName();
+            final SettingPopUp set = new SettingPopUp(myUser.getUserEmail(), myUser.getUserName());
+            myUser.setUserEmail(set.getEmail());
+            myUser.setUserName(set.getName()); 
         }
     }
 }
