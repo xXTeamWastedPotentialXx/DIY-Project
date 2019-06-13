@@ -7,8 +7,9 @@ package model;
 import java.util.ArrayList;
 
 /**
- * 
+ * Class to model a project
  * @author gehryguest
+ * @author Miranda Bessex
  *
  */
 public class Project {
@@ -37,47 +38,59 @@ public class Project {
     /** List of materials for projects. */
     private ArrayList<Materials> myMaterials;
     
+    /**unique project id that is created from hashing the this object */
     private int myProjectID;
-    /**
-     * 
-     * @param theName
-     * @param theDifficultly
-     * @param thePriority
-     * @param theStatus
-     * @param theTasks
-     * @param theMats
-     * @author gehry guest
-     * @author Jacob Marquardt
-     */ 
- 	 public Project(int theProjectID, String theName, int theDifficulty, int thePriorty, boolean theStatus,
-			ArrayList<Tasks> theTasks, ArrayList<Materials> theMats) {
+    
+    
+ 	/**
+      * constructor if an ID is not given, then it will generate one with this objects hashCode value
+      * @param theName
+      * @param theDifficultly
+      * @param thePriority
+      * @param theStatus
+      * @param theTasks
+      * @param theMats
+      * @author gehry guest
+      * @author Jacob Marquardt
+      * @author Miranda Bessex
+      */ 
+  	 public Project(String theName, int theDifficulty, int thePriorty,
+ 			ArrayList<Tasks> theTasks, ArrayList<Materials> theMats) {
 
-			myProjectID = theProjectID;
-		    
-			myEnvironmentallyFriendly = theStatus;
-		    
-		    myDifficultly = theDifficulty;
-		    
-		    myPriorityOfProject = thePriorty;
-		    myProjectName = theName;
-		    myTasks = theTasks;
-		    myMaterials = theMats;
- 	 }
- 	 
-	 /**
-	  * Additional constructor that just needs a name, difficulty, and priority
-	  * @param theName
-	  * @param theDifficultly
-	  * @param thePriority
-	  * @author Miranda Bessex
-	  */
- 	 
- 	 public Project(final String theName, final int theDiff, final int thePriority) {
- 		myProjectName = theName;
- 		myDifficultly = theDiff;
- 		myPriorityOfProject = thePriority;
- 		 
- 	 }
+ 			myProjectID = this.hashCode();
+ 		    
+ 		    myDifficultly = theDifficulty;
+ 		    
+ 		    myPriorityOfProject = thePriorty;
+ 		    myProjectName = theName;
+ 		    myTasks = theTasks;
+ 		    myMaterials = theMats;
+  	 }
+  	 
+  	/**
+      * constructor if an ID is given, Like when it is loaded from the file
+      * @param theName
+      * @param theDifficultly
+      * @param thePriority
+      * @param theStatus
+      * @param theTasks
+      * @param theMats
+      * @author gehry guest
+      * @author Jacob Marquardt
+      * @author Miranda Bessex
+      */ 
+  	 public Project(int theID, String theName, int theDifficulty, int thePriorty,
+ 			ArrayList<Tasks> theTasks, ArrayList<Materials> theMats) {
+
+ 			myProjectID = theID;
+ 		    
+ 		    myDifficultly = theDifficulty;
+ 		    
+ 		    myPriorityOfProject = thePriorty;
+ 		    myProjectName = theName;
+ 		    myTasks = theTasks;
+ 		    myMaterials = theMats;
+  	 }
     
     /** 
      * @param theName
@@ -100,11 +113,24 @@ public class Project {
      * @author gehry guest
      */
     public int getTotalCost() {
+    	calculateTotalCost();
         
         return myTotalCost;
     }
     
-    /** 
+    /**
+     * Method to calculate the total cost of the project
+     * @author Miranda Bessex
+     */
+    private void calculateTotalCost() {
+    	int sum = 0;
+		for(Materials m : myMaterials) {
+			sum += (m.getCost() * m.getQuantity());
+		}
+		myTotalCost = sum;
+	}
+
+	/** 
      * @return myDifficultly
      * @author gehry guest
      */

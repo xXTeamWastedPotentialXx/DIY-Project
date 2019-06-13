@@ -1,8 +1,11 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -10,11 +13,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.AbstractButton;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
@@ -31,11 +36,14 @@ import model.Materials;
 import model.Project;
 import model.Tasks;
 
+/**
+ * Class to model the project view/edit page
+ * @author Miranda Bessex
+ * @author Gehry Guest
+ * @author Joseph Rushford
+ */
 public class ProjectPage extends JFrame implements ChangeListener, ActionListener {
 	
-    /**
-     * 
-     */
     private static final long serialVersionUID = 1304544587598674961L;
 
     /** The width of the panel. */
@@ -56,106 +64,146 @@ public class ProjectPage extends JFrame implements ChangeListener, ActionListene
     /** The slider for difficulty of project. */
     private JSlider myPriortySlider;
     
+    /** The edit button */
     private JButton myEditButton;
     
+    /** The cancel button */
     private JButton myCancelButton;
+    
+    /** The delete button */
     private JButton myDeleteButton;
+    
+    /** The Save button */
+    private JButton mySaveButton;
+    
+    /** The material display panel */
     private JPanel myMatPan;
+    
+    /** The tasks display panel */
     private JPanel myTaskPan;
+    
+    /** The name of the project when editable */
     private JTextField myName;
-    private ArrayList<Materials> myMaterials;
-    private ArrayList<Tasks> myTasks;
+    
+    /** The reference to the project being displayed*/
     private Project myProject;
+    
+    /**A collection of all of the buttons */
+    private JPanel buttonOptions;
+    
+    /** The home page reference */
     private HomePage myHome;
+    
+    /** The tab object that holds the materials and tasks */
     private JTabbedPane myTab;
-    private JScrollPane myMats;
-    private JScrollPane myTsks;
 
+    /** Button to add Tasks */
 	private JButton myTaskAdd;
-
+	
+	/** Button to add Materials */
 	private JButton myMatAdd;
+	
+	/**Reference to the application model */
     private Application myApp;
-
-	private JCheckBox myStatus;
+	
+	
 	/**
+	 * Constructor for a project Page
+	 * @param theHome
+	 * @param theApp
+	 * @param theProject
 	 * @author Gehry Guest
 	 * @author Joseph Rushford
 	 */
     public ProjectPage(HomePage theHome, Application theApp, Project theProject) {
-        
-        this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
-        myApp = theApp;
-        final Container container = getContentPane();
+    	
+    	myApp = theApp;
         myHome = theHome;
-        final JPanel panel = new JPanel(new GridLayout(0, 1, 0, 20));
-        myMats = new JScrollPane();
-        myTsks = new JScrollPane();
-        myTab = new JTabbedPane();
-
+        myProject = theProject;
+        
+    	initializeFields();
+    	
+    	createSliders();
+        
+        createTabPanes();
+    	
+    	setUpProjectPage();     
+    
+    }
+    
+    /**
+     * Method to set up the project page
+     * @author Miranda Bessex
+	 * @author Gehry Guest
+     */
+    private void setUpProjectPage() {
+    	this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+    	final Container container = getContentPane();
+    	
+    	final JPanel panel = new JPanel(new GridLayout(4, 1));
+    	container.add(panel, BorderLayout.CENTER);
+        panel.setOpaque(true);
         
         final JLabel imgLabel = new JLabel("",
-                                        new ImageIcon("./Resources/HomePage BackGround.png"), 
-                                        SwingConstants.CENTER);
-        myStatus = new JCheckBox("Enviromental Friendly");
-        myStatus.setSelected(theProject.getEnviromentallyFriendly());
+                new ImageIcon("./Resources/App Logo_without name.png"), 
+                SwingConstants.CENTER); 
         
-        createSliders();
-        container.add(panel, BorderLayout.CENTER);
-        panel.setOpaque(true);
-        myName = new JTextField(20);
-        JPanel namePan = new JPanel();
-        namePan.add(new JLabel("Project Name:"));
-        myName.setText(theProject.getProjectName());
-        namePan.add(myName); 
-        panel.add(namePan);
-        myMatAdd = new JButton();
-        myMatAdd.add(new JLabel("Add Materials"));
-        myTaskPan = new JPanel();
-        myTaskPan.add(new JLabel("Tasks:"));
-        myTaskAdd = new JButton();
-        myTaskAdd.add(new JLabel("Add Tasks"));
-        myTaskPan.add(myTaskAdd);
-        myTaskAdd.addActionListener(this);
+        panel.add(imgLabel);
+        
+        formatNameField();
+        panel.add(myName);
+           
+        JPanel addStuffButtons = new JPanel();
+        
         myMatAdd.addActionListener(this);
-        myMatPan = new JPanel();
-        myMatPan.add(new JLabel("Materials:"));
-        myMatPan.add(myMatAdd);
-        panel.add(myMatPan);
+        addStuffButtons.add(myMatAdd, BorderLayout.WEST);
 
-        panel.add(myTaskPan);
-        panel.add(myStatus);
-        createTabPanes();
+        myTaskAdd.addActionListener(this);
+        addStuffButtons.add(myTaskAdd, BorderLayout.EAST);
+          
+        //Panel to hold both sliders
+        JPanel sliderPanel = new JPanel(new BorderLayout());
         
+        //Difficulty slider 
         JPanel diffPan = new JPanel();
         diffPan.add(new JLabel("Difficulty"));
         diffPan.add(myDifficultySlider);
-        myDifficultySlider.setValue(theProject.getDifficultly());
-        myPriortySlider.setValue(theProject.getPriority()); 
+        myDifficultySlider.setValue(myProject.getDifficultly());
+        sliderPanel.add(diffPan, BorderLayout.WEST);
         
-        panel.add(diffPan);
+        //priority slider
         JPanel priorPan = new JPanel();
         priorPan.add(new JLabel("Priorty"));
         priorPan.add(myPriortySlider);
-
-        panel.add(priorPan);
+        myPriortySlider.setValue(myProject.getPriority());
+        sliderPanel.add(priorPan, BorderLayout.EAST);
         
-        //panel.add(priorPan, BorderLayout.SOUTH);
-        container.add(panel, BorderLayout.WEST);
-        final JPanel buttonOptions = new JPanel();
-        myEditButton = new JButton("Edit");
-        myEditButton.setEnabled(false);
-        myCancelButton = new JButton("Cancel");
-        myDeleteButton = new JButton("Delete");
-        myDeleteButton.setEnabled(false);
+        //Addd slider panel to main panel
+        panel.add(sliderPanel);
+        
+        //Add the material and task buttons to the main panel
+        panel.add(addStuffButtons);
+ 
+        final JPanel buttonAndTabPanel = new JPanel(new BorderLayout());
+        
+        buttonOptions  = new JPanel();
+        
         buttonOptions.add(myEditButton);
         buttonOptions.add(myCancelButton);
         buttonOptions.add(myDeleteButton);
-        panel.add(myTab);
         
-        container.add(buttonOptions, BorderLayout.SOUTH);
+        buttonAndTabPanel.add(myTab, BorderLayout.NORTH);
+        buttonAndTabPanel.add(buttonOptions, BorderLayout.SOUTH);
+        
+        container.add(buttonAndTabPanel, BorderLayout.SOUTH);
+        
         setState(false);
+        
         myEditButton.addActionListener(this);
         myCancelButton.addActionListener(this);
+        myDeleteButton.addActionListener(this);
+        mySaveButton.addActionListener(this);
+        
         this.pack();
         
         this.setLocationRelativeTo(null);
@@ -165,13 +213,43 @@ public class ProjectPage extends JFrame implements ChangeListener, ActionListene
         this.setResizable(false);
 
         this.setVisible(true);
-    }
-    
-    
-    
+		
+	}
+
     /**
+     * Method to initialize the formatting for the project name header
+     * @author Miranda Bessex
+     */
+	private void formatNameField() {
+		myName.setHorizontalAlignment(SwingConstants.CENTER);
+		myName.setBackground(Color.LIGHT_GRAY);
+		myName.setOpaque(true);
+		myName.setFont(new Font("Arial", Font.BOLD, 20));
+	}
+
+	/**
+	 * Method for initializing all of the fields for the project page
+	 * @author Miranda Bessex
+	 */
+	private void initializeFields() {
+		myName = new JTextField(myProject.getProjectName());
+		
+		myMatPan = new JPanel(new GridLayout(50, 1));
+		myTaskPan = new JPanel(new GridLayout(50, 1));
+		
+        myTab = new JTabbedPane();
+		
+		myEditButton = new JButton("Edit");
+	    myCancelButton = new JButton("Cancel");
+        myDeleteButton = new JButton("Delete");
+        mySaveButton = new JButton("Save");
+        myMatAdd = new JButton("Add Materials");
+        myTaskAdd = new JButton("Add Tasks");
+	}
+
+	/**
      * creates the slider for the thickness menu.
-     * 
+     * @author @author Gehry Guest
      */
     public void createSliders() {
         final int increment = 5;
@@ -206,13 +284,84 @@ public class ProjectPage extends JFrame implements ChangeListener, ActionListene
         
         myPriortyValue = increment;
     }
+    
 	/**
+	 * Method to create the material and task tabs on the page
 	 * @author Joseph Rushford
+	 * @author Miranda Bessex
 	 */
     public void createTabPanes() {
+    	JScrollPane myMats = new JScrollPane(myMatPan);
+    	JScrollPane myTsks = new JScrollPane(myTaskPan);
+    	
+    	myTab.setPreferredSize(new Dimension(500, 250));
+    	fillTasks();
+    	fillMaterials();
     	myTab.add("Materials", myMats);
     	myTab.add("Tasks", myTsks);
     }
+
+    /**
+     * Method to fill the materials panel with the projects materials
+     * @author Miranda Bessex
+     */
+   private void fillMaterials() {
+	   for(Materials m: myProject.getMaterials()) {
+		   String matInfo = "	Name: " + m.getName() + "       Cost: " + 
+					Double.toString(m.getCost()) + "       Quantity: " + 
+					Integer.toString(m.getQuantity());
+		   
+			JLabel newLab = new JLabel(matInfo);
+			myMatPan.add(newLab);
+	   }
+	   
+	   myMatPan.repaint();
+	   myMatPan.revalidate();
+	}
+
+   /**
+    * Method to fill the task panel with the projects tasks
+    * @author Miranda Bessex
+    */
+   private void fillTasks() {
+	   for(Tasks t: myProject.getTasks()) {
+		   String taskInfo = t.getName();
+			JCheckBox newLab = new JCheckBox(taskInfo);
+			newLab.setSelected(t.isCompleted());
+			
+			//Add action listener that toggles completeness based on checked or not
+			newLab.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					for(Tasks t : myProject.getTasks()) {
+						if(newLab.getText() == t.getName()) {
+							t.toggleCompletedTask();
+						}
+					}	
+				}		
+    		});
+			
+			//Add to the panel
+			myTaskPan.add(newLab);
+	   }
+		
+		myTaskPan.repaint();
+		myTaskPan.revalidate();
+	}
+   
+   /**
+    * Method to rebuild buttons after edit has been selected
+    * @author Miranda Bessex
+    */
+   private void rebuildButtons() {
+	   buttonOptions.removeAll();
+	   buttonOptions.add(mySaveButton);
+       buttonOptions.add(myCancelButton);
+       buttonOptions.add(myDeleteButton);
+       buttonOptions.repaint();
+       buttonOptions.revalidate();
+   }
 
    /**
     * sets the integer value for difficulty.
@@ -220,7 +369,6 @@ public class ProjectPage extends JFrame implements ChangeListener, ActionListene
     * @param theValue integer for difficulty.
     */
     public void setMyDifficultyValue(final int theValue) {
-
         myDifficultyValue = theValue;
     }
        
@@ -230,16 +378,15 @@ public class ProjectPage extends JFrame implements ChangeListener, ActionListene
     * @return myDifficultyValue integer from slider.
     */
     public int getMyDifficultyValue() {
-
         return myDifficultyValue;
     }
+    
     /**
      * sets the integer value for thickness.
 	 * @author Joseph Rushford
      * @param thePriortyValue integer for Proirty.
      */
      public void setMyPriortyValue(final int theValue) {
-
          myDifficultyValue = theValue;
      }
         
@@ -249,62 +396,151 @@ public class ProjectPage extends JFrame implements ChangeListener, ActionListene
      * @return Value integer from Priortyslider.
      */
      public int getMyPriortyValue() {
-
          return myPriortyValue;
      }
-    /** {@inheritDoc} */
+     
     /**
+     * Method to set the state of the page whether the owner is editing or not
      * @author Gehry Guest
      * @author Joseph Rushford
-     * @return 
      */
     public void setState(boolean theState) {
-        
         myDifficultySlider.setEnabled(theState);
         myPriortySlider.setEnabled(theState);
-        myName.setEnabled(theState);
-    	myTaskAdd.setEnabled(theState);
+    	myName.setEnabled(theState);
     	myMatAdd.setEnabled(theState);
-        myStatus.setEnabled(theState);
+    	myTaskAdd.setEnabled(theState);
+
     }
     @Override
     public void stateChanged(final ChangeEvent theEvent) {
     	if(theEvent.getSource() == myDifficultySlider) {
     		setMyDifficultyValue(myDifficultySlider.getValue());
+    		myProject.setDifficultly(myDifficultySlider.getValue());
     	} else if( theEvent.getSource() == myPriortySlider) {
     		setMyPriortyValue(myPriortySlider.getValue());
+    		myProject.setPriority(myPriortySlider.getValue());
     	}
     }
     
 	/**
+	 * Action performed override function
+	 * Directs the specific actions to different functions 
 	 * @author Joseph Rushford
+	 * @author Miranda Bessex
 	 */
     @Override
     public void actionPerformed(final ActionEvent theEvent) {
         
+    	//If the edit button was selected
         if (theEvent.getSource() == myEditButton) {
-        	myEditButton.setText("Confirm");
-            this.setVisible(false);
-            myHome.setVisible(true);
-     
+        	setState(true);
+        	rebuildButtons();
+
+        //If the cancel button was selected
         } else if (theEvent.getSource() == myCancelButton) {
             this.setVisible(false);
             myHome.setVisible(true);
+            
+        //If the add Material button was selected    
         } else if( theEvent.getSource() == myMatAdd) {
-        	MaterialPanel addMat = new MaterialPanel("new material", "cost", "quantity");
-    		//if(addMat.returnMat().getCost() >= 0) {
-    			//myMaterials.add(addMat.returnMat());
-    			myMats.add(new JToggleButton("test"));
-    		
-    		//}
-    	
-    	}else if( theEvent.getSource() == myTaskAdd) {
-    		TaskPanel addMat = new TaskPanel("description", false);
-    		//myTasks.add(addMat.returnTask());
-    		myTsks.add(new JToggleButton("test"));
+        	materialAddButtonAction();
 
-    	}else if(theEvent.getSource() == myDeleteButton) {
+    	//If the task add button was selected	
+    	}else if( theEvent.getSource() == myTaskAdd) {
+    		taskAddButtonAction();
     		
+    	//If the delete button was selected	
+    	}else if(theEvent.getSource() == myDeleteButton) {
+    		deleteButtonAction();
+    		
+    	//If the save button was selected	
+    	}else if(theEvent.getSource() == mySaveButton) {
+    		saveButtonAction();
     	}
     }
+
+    /**
+     * Method to be called when the add material button is selected
+     * @author Miranda Bessex
+     */
+    private void materialAddButtonAction() {
+    	MaterialPanel addMat = new MaterialPanel("", "", "");
+		Materials newMat = addMat.returnMat();
+		if(newMat.getCost() > 0) {
+			myProject.addMaterials(newMat);
+
+			String matInfo = "	Name: " + newMat.getName() + "       Cost: " + 
+						Double.toString(newMat.getCost()) + "       Quantity: " + 
+						Integer.toString(newMat.getQuantity());
+			
+			JLabel newLab = new JLabel(matInfo);
+			
+			myMatPan.add(newLab);
+			
+			myMatPan.repaint();
+			myMatPan.revalidate();
+		}
+		
+	}
+
+	/**
+     * method to be called when the add task button has been clicked
+     * @author Miranda Bessex
+     */
+    private void taskAddButtonAction() {
+    	TaskPanel addTask = new TaskPanel("description", false);
+		Tasks newTask = addTask.returnTask();   		
+		myProject.addTasks(newTask);
+		
+		String taskInfo = newTask.getName();
+		JCheckBox newBox = new JCheckBox(taskInfo);
+		if(newTask.isCompleted()) {
+			newBox.setSelected(true);
+		}
+		newBox.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				for(Tasks t : myProject.getTasks()) {
+					if(newBox.getText() == t.getName()) {
+						t.toggleCompletedTask();
+					}
+					System.out.println(t.isCompleted());
+				}	
+			}		
+		});
+		
+		myTaskPan.add(newBox);
+		myTaskPan.repaint();
+		myTaskPan.revalidate();
+		
+	}
+
+	/**
+     * method to be called when the delete button has been clicked
+     * @author Miranda Bessex
+     */
+    private void deleteButtonAction() {
+    	int areYouSure = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this project?", "Delete", JOptionPane.YES_NO_OPTION);
+		if(areYouSure == JOptionPane.YES_OPTION) {
+			myApp.deleteProject(myProject.getProjectID());
+			myHome.setUpList(myApp);
+			this.setVisible(false);
+            myHome.setVisible(true);
+		}
+	}
+
+	/**
+     * method to be called when the Save button has been clicked
+     * @author Miranda Bessex
+     */
+	private void saveButtonAction() {
+		myProject.setProjectName(myName.getText());
+		myApp.addProject(myProject);
+		myHome.setUpList(myApp);
+		this.setVisible(false);
+        myHome.setVisible(true);
+		
+	}
 }

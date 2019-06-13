@@ -6,6 +6,12 @@ import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 
+
+/**
+ * Class to represent the about me box
+ * @author Miranda Bessex
+ *
+ */
 public class AboutMe {
     
     private String version;

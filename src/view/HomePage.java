@@ -71,13 +71,10 @@ public class HomePage extends JFrame implements ActionListener {
     private User myUser;
      
     /** To bring up directory for user. */
-    private final JFileChooser myOpenFile;
+    private JFileChooser myOpenFile;
     
     /** The button for the more tab. */
     private JButton myAddButton;
-    
-    /** The button for the more tab. */
-    private JButton myDeleteButton;
     
     /** menu bar for GUI. */
     private JMenuBar myMenuBar;
@@ -91,9 +88,6 @@ public class HomePage extends JFrame implements ActionListener {
     /** button for pop up to talk about version.*/
     private JMenuItem myAboutButton;
     
-    /** The button for the sort tab. */
-    private JMenuItem mySortButton;
-    
     /** The button for importing files. */
     private JMenuItem myImportButton;
     
@@ -106,32 +100,48 @@ public class HomePage extends JFrame implements ActionListener {
     /** stores the information of last opened file. */
     private File myLocation;
     
+    private File myLoadedCSV;
+    
     /** Creates list for projects. */
     private ArrayList<JButton> myProjectButtons;
     
-    private JPanel mainPanel;
+    /** The main home panel */
+    private JPanel myMainHomePanel;
     
+    /** The reference to the home page */
     private HomePage myHomePage;
 
     
- 
     
     /**
-     * Initializes fields with reasonable values.
+     * Constructor for the HomePage
      * @author gehry guest
+     * @author Miranda Bessex
      */
     public HomePage() {
-    	myApp = new Application();
     	
     	userLogIn();
+    	
+    	myApp = new Application(myUser);
+    	
+    	initializeFields();
         
-        myOpenFile = new JFileChooser();
+        myHomePage = this;
+        
+        setUp();
+    }
+    
+    /**
+     * Method to initialize fields
+     * @author Miranda Bessex
+     */
+    private void initializeFields() {
+    	
+    	myOpenFile = new JFileChooser();
         
         myLocation = new File("project_files");
         
         myAddButton = new JButton("Add");
-        
-        myDeleteButton = new JButton("Delete");
         
         myMenuBar = new JMenuBar();
         
@@ -145,28 +155,26 @@ public class HomePage extends JFrame implements ActionListener {
         
         myAboutButton = new JMenuItem("About");
         
-        mySortButton = new JMenuItem("Sort");
-        
         mySettings = new JMenuItem("Settings");
         
-        mainPanel = new JPanel();
+        myMainHomePanel = new JPanel();
         
         myProjectButtons = new ArrayList<JButton>();
         
-        myHomePage = this;
-        
-        setUp();
-    }
+        myLoadedCSV = new File("Temp");
+	}
     
-    private void userLogIn() {
+
+    /**
+     * A method to run a option pane for log in information and creates a user
+     * @author Miranda Bessex
+     */
+	private void userLogIn() {
+		
     	String name = JOptionPane.showInputDialog("Enter Username: ");
     	String email = JOptionPane.showInputDialog("Enter Email: ");
-    	
     	myUser = new User(name, email);
     }
-    
-    
-    
     
     /**
      * sets up containers, JPanels, and progress bar with layouts and colors.
@@ -180,17 +188,87 @@ public class HomePage extends JFrame implements ActionListener {
         
         setUpMenuBar();
         
-        setUpMainPanel(mainPanel);
+        addActionListenersToButtons();
         
-        container.add(mainPanel, BorderLayout.CENTER);
+        container.add(myMainHomePanel, BorderLayout.CENTER);
         
-    
- 
         displayHome();
     }
     
+    /**
+     * This is where we populate the list that appears on the GUI.
+     * @author Miranda Bessex
+     */
+    void setUpList(Application myApp) {
+    	
+    	//Clear out old list
+    	myProjectButtons.clear();
+             
+    	//create new list
+        ArrayList<Project> projectsList = myApp.getProjectList();
+        
+        //If the list is empty display the opening add new project button
+        if(projectsList.isEmpty()) {
+        	myProjectButtons.add(createBeginingAddButton());
+        }
+        
+        //create a button for each of the projects in the list
+        for(Project p: projectsList) {
+        	
+        	//Uses the toString method in the project class to know what to display
+        	ProjectButton button = new ProjectButton(p);
+        	
+        	//button formatting
+        	button.setContentAreaFilled(false);
+        	button.setHorizontalAlignment(SwingConstants.LEFT);
+        	button.setBorderPainted(true);
+        	button.setBackground(Color.LIGHT_GRAY);
+        	button.setOpaque(true);
+        	button.setPreferredSize(new Dimension(500, 200));
+        	button.setFont(new Font("Arial", Font.BOLD, 20));
+        	
+        	//button action listener
+        	button.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					myHomePage.setVisible(false);
+					new ProjectPage(myHomePage, myApp, button.getProject());
+				}
+        	});
+        	myProjectButtons.add(button);
+        }  
+        setUpMainPanel();
+    }
     
     /**
+     * Method to create an "Add Project button" within the main list if no projects exist for the user
+     * Takes you to the add project page
+     * @return Add first project button
+     * @author Miranda Bessex
+     */
+    private JButton createBeginingAddButton() {
+    	JButton button = new JButton("+ Add First Project!");
+    	button.setContentAreaFilled(false);
+    	button.setHorizontalAlignment(SwingConstants.LEFT);
+    	button.setBorderPainted(true);
+    	button.setBackground(Color.LIGHT_GRAY);
+    	button.setOpaque(true);
+    	button.setPreferredSize(new Dimension(500, 200));
+    	button.setFont(new Font("Arial", Font.BOLD, 20));
+    	
+    	button.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				myHomePage.setVisible(false);
+				new AddPage(myHomePage, myApp, myLoadedCSV);
+			}
+    	});
+		return button;
+	}
+
+	/**
      * populates the menu bar with actions,buttons and menus.
      * @author gehry guest
      */
@@ -219,26 +297,18 @@ public class HomePage extends JFrame implements ActionListener {
         myAddButton.setContentAreaFilled(false);
         myAddButton.setBorderPainted(false);
         myAddButton.setFocusable(false);
-        
-        myDeleteButton.setOpaque(true);
-        myDeleteButton.setContentAreaFilled(false);
-        myDeleteButton.setBorderPainted(false);
-        myDeleteButton.setFocusable(false);
-        
+       
         customizeJMenuButtons();
 
         //Set the sizes of the buttons.
         myAddButton.setPreferredSize(new Dimension(width, height));
         myFileShareMenu.setPreferredSize(new Dimension(width, height));
         myOtherMenu.setPreferredSize(new Dimension(width, height));
-        myDeleteButton.setPreferredSize(new Dimension(width, height));
         myMenuBar.setPreferredSize(new Dimension(WIDTH, 30));
         
         //Add items to JMenuBar.
         myMenuBar.add(spacer5);
         myMenuBar.add(myAddButton);
-        myMenuBar.add(spacer1);
-        myMenuBar.add(myDeleteButton);
         myMenuBar.add(spacer2);
         
         //Add items to FileShare SubMenu
@@ -251,8 +321,6 @@ public class HomePage extends JFrame implements ActionListener {
         //Add Items to OtherMenu SubMenu.
         myOtherMenu.add(myAboutButton);
         myOtherMenu.addSeparator();
-        myOtherMenu.add(mySortButton);
-        myOtherMenu.addSeparator();
         myOtherMenu.add(mySettings);
         myMenuBar.add(myOtherMenu);
         myMenuBar.add(spacer4);
@@ -260,7 +328,6 @@ public class HomePage extends JFrame implements ActionListener {
         //sets the layout through gridbag layout.
         myMenuBar.setLayout(new GridBagLayout());        
     }
-    
     
     /**
      * changes the look of the buttons to appear and act similar to jmenus.
@@ -284,78 +351,24 @@ public class HomePage extends JFrame implements ActionListener {
                 }
             }
         });
-        
-        myDeleteButton.getModel().addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(final ChangeEvent theE) {
-                final ButtonModel model = (ButtonModel) theE.getSource();
-
-                if (model.isRollover()) {
-                    myDeleteButton.setBackground(new Color(163,184,204)); 
-                    
-                    myDeleteButton.setOpaque(true);
-                } else {
-                    myDeleteButton.setBackground(null);
-                    
-                    myDeleteButton.setOpaque(false);
-                }
-            }
-        });
     }
-    
+   
 
     /**
-     * This is where we populate the list that appears on the GUI.
-     * Needed to make this public so it can be visible from the add page --Miranda
+     * creates the main home panel that holds the home view
+     * This is created each time the list of projects is updated
+     * @author gehry guest
      * @author Miranda Bessex
-     * @author gehry guest
      */
-    void setUpList(Application myApp) {
+    private void setUpMainPanel() {
     	
-    	myProjectButtons.clear();
-             
-        ArrayList<Project> projectsList = myApp.getProjectList();
-        
-        for(Project p: projectsList) {
-        	//Uses the toString method in the project class to know what to display
-        	ProjectButton button = new ProjectButton(p);
-        	//button.setOpaque(false);
-        	button.setContentAreaFilled(false);
-        	button.setHorizontalAlignment(SwingConstants.LEFT);
-        	button.setBorderPainted(true);
-        	button.setPreferredSize(new Dimension(500, 200));
-        	button.setFont(new Font("Arial", Font.BOLD, 20));
-        	button.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					myHomePage.setVisible(false);
-					new ProjectPage(myHomePage, myApp, button.getProject());
-				}
-        	});
-        	
-        	myProjectButtons.add(button);
-        }  
-        
-        setUpMainPanel(mainPanel);
-    }
-    
-
-    /**
-     * creates the main panel which everything is built off of.
-     * Added remove all to start it off to clear previous stuff out --Miranda
-     * @param theMainPanel
-     * @author gehry guest
-     */
-    private void setUpMainPanel(JPanel theMainPanel) {
-    	
-    	theMainPanel.removeAll();
-    	
+    	myMainHomePanel.removeAll();
+    		
     	final JLabel imgLabel = new JLabel("",
                 new ImageIcon("./Resources/App Logo_without name.png"), 
                 SwingConstants.CENTER);
         
-        theMainPanel.add(myMenuBar, BorderLayout.NORTH);
+    	myMainHomePanel.add(myMenuBar, BorderLayout.NORTH);
         
         JPanel projectPanel = new JPanel();
         projectPanel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -366,22 +379,28 @@ public class HomePage extends JFrame implements ActionListener {
         for(JButton b: myProjectButtons) {
         	projectPanel.add(b);
         }
+       
+        myMainHomePanel.add(new JScrollPane(projectPanel), BorderLayout.CENTER);
         
-        theMainPanel.add(new JScrollPane(projectPanel), BorderLayout.CENTER);
+        myMainHomePanel.repaint();
+        myMainHomePanel.revalidate();
+    }
+    
+    
+   /**
+    * Method to add action listeners to all of the hard coded buttons
+    * @author Miranda Bessex
+    */
+    private void addActionListenersToButtons() {
         
-        //add action listeners to buttons.
         myAddButton.addActionListener(this);
-        
-        myDeleteButton.addActionListener(this);
         
         myExportButton.addActionListener(this);
         
         myImportButton.addActionListener(this);
         
         myAboutButton.addActionListener(this);
-        
-        mySortButton.addActionListener(this);
-        
+       
         mySettings.addActionListener(this);
         
         myFileShareMenu.addActionListener(this);
@@ -407,7 +426,9 @@ public class HomePage extends JFrame implements ActionListener {
         this.setVisible(true);
     }    
     
+
     /**
+     * Method to open a file when you want to import data into the application
      * @author joseph rushford
      * @author Miranda Bessex
      */
@@ -417,6 +438,7 @@ public class HomePage extends JFrame implements ActionListener {
 
         final int returnValue = myOpenFile.showOpenDialog(null); 
 
+        
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             try {
                 
@@ -433,7 +455,11 @@ public class HomePage extends JFrame implements ActionListener {
                 	myUser.setUserName(file.next());
                 }
                 
-                myApp.loadProjects(file);
+                myApp.loadAllEntries(myOpenFile.getSelectedFile());
+                myApp.setFile(myOpenFile.getSelectedFile());
+                myLoadedCSV = myOpenFile.getSelectedFile();
+                setUpList(myApp);
+               
             } catch (final FileNotFoundException e) {
                 
                 JOptionPane.showMessageDialog(null, "File Not Found"); 
@@ -443,6 +469,7 @@ public class HomePage extends JFrame implements ActionListener {
     
     
     /**
+     * Method to save the file on export
      * @author joseph rushford
      */
     private void saveFile() {
@@ -452,26 +479,27 @@ public class HomePage extends JFrame implements ActionListener {
         final int returnValue = myOpenFile.showSaveDialog(null);
         
         if (returnValue == JFileChooser.APPROVE_OPTION) {
-            try (FileWriter export = new FileWriter(myOpenFile.getSelectedFile() + ".csv")) {
-                
-                export.write(myUser.getUserEmail() + "\n" + myUser.getUserName() + "\n");
-                
-                export.close();
-            } catch (final IOException e1) {
-                
-                e1.printStackTrace();
-            }
+        	
+        	myApp.setFile(myOpenFile.getSelectedFile());
+        	
+        	myLoadedCSV = myOpenFile.getSelectedFile();
+        	
+        	myApp.write();
         }
     }
    
-    
+    /**
+     * All Actions perfomed by all of the buttons on the page
+     * @author Miranda Bessex
+     * @author joseph rushford
+     * @author gehry guest
+     */
     @Override
     public void actionPerformed(final ActionEvent theEvent) {
         
         if (theEvent.getSource() == myAddButton) {
             this.setVisible(false);
-            
-            new AddPage(this, myApp);
+            new AddPage(this, myApp, myLoadedCSV);
           
         } else if (theEvent.getSource() == myAboutButton) {
             new AboutMe();

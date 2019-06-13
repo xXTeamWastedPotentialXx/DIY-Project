@@ -5,11 +5,13 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Scanner;
 
 import model.Materials;
 import model.Project;
 import model.Tasks;
+import model.User;
 
 /*
  * Notes:
@@ -38,88 +40,70 @@ import model.Tasks;
 
 /**
  * Class that holds username, email, and projects and handles the .csv file where it's all stored.
- * @author (whoever worked on this class originally, idk)
+ * @author Miranda Bessex
  * @author Jacob Marquardt
- *
  */
 public class Application {
+	/** The user of the application */
+	private User myUser;
 	
-	private String username;
-	
-	private String userEmail;
-	
+	/** An ArrayList of Projects */
 	private ArrayList<Project> theProjects;
 	
+	/** The persistent saving file while someone is signed in */
 	private File csv;
 	
-	public Application() {
-		Project bbqPit = new Project("BBQ Pit", 3, 9);
-		Project dogHouse = new Project("Dog House", 6, 8);
-		Project solarPanels = new Project("Solar Panels", 10, 2);
+	
+	/**
+	 * Constructor for the application
+	 * @param theUser
+	 * @author Miranda Bessex
+	 */
+	public Application(User theUser) {
 		theProjects = new ArrayList<Project>();
-		theProjects.add(bbqPit);
-		theProjects.add(dogHouse);
-		theProjects.add(solarPanels);
-
+		myUser = theUser;
 		
-	}
-	
-	/**
-	 * 
-	 * @param theCsv
-	 * @author Jacob Marquardt
-	 */
-	public Application(final File theCsv) {
-		theProjects = new ArrayList<Project>();
-		csv = theCsv;
-	}
-	
-	/**
-	 * Leaving this here for now just so that HomePage isn't broken
-	 * @param theFile
-	 */
-	public void loadProjects(final Scanner theFile) {
-
+		//initialized to a dummy value until a file has been loaded
+		csv = new File("Not Updated Yet");
 	}
 
+
 	/**
-	 * Adds a new project to theProjects or replaces an existing project depending on Project ID and updates csv accordingly.
+	 * Adds a new project to theProjects
 	 * @param theNewProject
 	 * @author Jacob Marquardt
-	 * 
-	 * working on fixing this method : Miranda
+	 * @author Miranda Bessex
 	 */
 	public void addProject(final Project theNewProject) {
+		
+		//find and delete any existing projects with the same ID reference
+		for (Iterator<Project> iterator = theProjects.iterator(); iterator.hasNext(); ) {
+    	    Project value = iterator.next();
+    	    if (value.getProjectID() == theNewProject.getProjectID()) {
+    	        iterator.remove();
+    	    }
+		}
+		
+		//Add the project and write to the file
 		theProjects.add(theNewProject);
-		
-		
-//		if (theNewProject.getProjectID() > theProjects.size()) {
-//			theProjects.add(theNewProject);	
-//		} else {
-//			theProjects.remove(theNewProject.getProjectID() - 1);
-//			theProjects.add(theNewProject.getProjectID() - 1, theNewProject);
-//		}
-//		write();
+		write();
 	}
+	
 	
 	/**
 	 * Removes project with the specified ID from theProjects, updates following project IDs to keep ordering correct, and updates csv accordingly.
 	 * @param projectID
-	 * @author Jacob Marquardt
+	 * @author Miranda Bessex
 	 */
 	public void deleteProject(final int projectID) {
-		theProjects.remove(projectID - 1);
-		for (int i = projectID - 1; i < theProjects.size(); i++) {
-			theProjects.get(i).setProjectID(theProjects.get(i).getProjectID() - 1);
+		for (Iterator<Project> iterator = theProjects.iterator(); iterator.hasNext(); ) {
+    	    Project value = iterator.next();
+    	    if (value.getProjectID() == projectID) {
+    	        iterator.remove();
+    	    }
 		}
 		write();
 	}
-		
-	public void loadAllEntries() {
-		loadAllEntries(csv);
-	}
-	
-	
 	
 	/**
 	 * Getter for the projects array
@@ -141,15 +125,14 @@ public class Application {
 //				Clearing existing projects because they'll be overwritten
 				theProjects.clear();
 
-				username = scan.nextLine().split(",")[0];
-				userEmail = scan.nextLine().split(",")[0];
+				myUser.setUserName(scan.nextLine().split(",")[0]);
+				myUser.setUserEmail(scan.nextLine().split(",")[0]);
 				
 				String[] line;
 				int projectID;
 				String projectName;
 				int difficulty;
 				int priority;
-				boolean ecoFriendly;
 				String[] taskList;
 				String[] matList;
 				ArrayList<Tasks> tasks = new ArrayList<Tasks>();
@@ -164,11 +147,6 @@ public class Application {
 					projectName = line[1];
 					difficulty = Integer.parseInt(line[2]);
 					priority = Integer.parseInt(line[3]);
-					if (Integer.parseInt(line[4]) == 0) {
-						ecoFriendly = false;
-					} else {
-						ecoFriendly = true;
-					}
 					
 //					Parses tasks from second line of project
 					if (scan.hasNext()) {
@@ -195,7 +173,7 @@ public class Application {
 					}
 					
 //					Adds project to app and clears tasks & materials to be used for the next project
-					theProjects.add(new Project(projectID, projectName, difficulty, priority, ecoFriendly, new ArrayList<Tasks>(tasks), new ArrayList<Materials>(materials)));
+					theProjects.add(new Project(projectID, projectName, difficulty, priority, new ArrayList<Tasks>(tasks), new ArrayList<Materials>(materials)));
 					tasks.clear();
 					materials.clear();
 				}
@@ -210,14 +188,17 @@ public class Application {
 	 * Writes all current application info to csv.
 	 * @author Jacob Marquardt
 	 */
-	private void write() {
+	public void write() {
 		try (FileWriter writer = new FileWriter(csv);) {
 			StringBuilder str = new StringBuilder();
+			
 //			Add username and email
-			str.append(username).append("\n");
-			str.append(userEmail).append("\n");
+			str.append(myUser.getUserName()).append("\n");
+			str.append(myUser.getUserEmail()).append("\n");
+			
 //			Iterate over all projects
 			for (Project p : theProjects) {
+				
 //				Add ID, name, difficulty, priority, and 1 or 0 if environmentally friendly or not respectively
 				str.append(p.getProjectID()).append(",");
 				str.append(p.getProjectName()).append(",");
@@ -229,6 +210,7 @@ public class Application {
 					str.append(0);
 				}
 				str.append("\n");
+				
 //				Add tasks if there are any, or "notasks" if there are not
 				if (p.getTasks().size() >= 1) {
 //					Iterate over every task in current project
@@ -287,7 +269,7 @@ public class Application {
 	 * @author Jacob Marquardt
 	 */
 	public String getUsername() {
-		return username;
+		return myUser.getUserName();
 	}
 	
 	/**
@@ -296,7 +278,7 @@ public class Application {
 	 * @author Jacob Marquardt
 	 */
 	public String getUserEmail() {
-		return userEmail;
+		return myUser.getUserEmail();
 	}
 	
 	/**
@@ -313,12 +295,21 @@ public class Application {
 	 */
 	
 	/**
+	 * Setter for the csv file the app is being saved too
+	 * @author Miranda Bessex
+	 * @params the file
+	 */
+	public void setFile(final File theFile) {
+		csv = theFile;
+	}
+	
+	/**
 	 * Changes username to the argument passed and updates csv accordingly.
 	 * @param theUsername
 	 * @author Jacob Marquardt
 	 */
-	public void setUsername(final String theUsername) {
-		username = theUsername;
+	public void setUserName(final String theUsername) {
+		myUser.setUserName(theUsername);
 		write();
 	}
 	
@@ -328,19 +319,7 @@ public class Application {
 	 * @author Jacob Marquardt
 	 */
 	public void setUserEmail(final String theUserEmail) {
-		userEmail = theUserEmail;
+		myUser.setUserEmail(theUserEmail);
 		write();
-	}
-	
-	/**
-	 * toString for testing purposes.
-	 * @author Jacob Marquardt
-	 */
-	public String toString() {
-		StringBuilder out = new StringBuilder(String.format("Username: %s\tEmail: %s\n", username, userEmail));
-		for (Project p : theProjects) {
-			out.append(p.toString()).append("\n");
-		}
-		return out.toString();
 	}
 }

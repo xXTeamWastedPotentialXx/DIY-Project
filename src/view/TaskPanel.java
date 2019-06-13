@@ -12,11 +12,6 @@ import model.Materials;
 import model.Tasks;
 
 public class TaskPanel extends JOptionPane{
-
-
-		/**
-		 * 
-		 */
 		private boolean myState;
 		private String myName;
 
@@ -39,6 +34,7 @@ public class TaskPanel extends JOptionPane{
 			settings[0] = namePan;
 			settings[1] = statusPan;
 			int confirm = JOptionPane.showConfirmDialog(null, settings, "New Task",  JOptionPane.OK_CANCEL_OPTION);
+			
 			if(confirm == JOptionPane.OK_OPTION) {
 				myState = status.isSelected();
 				myName = name.getText();
