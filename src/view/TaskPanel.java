@@ -16,7 +16,9 @@ public class TaskPanel extends JOptionPane{
 		private String myName;
 
 		/**
-		 * @author Joseph Rushford
+		 * @author Joseph Rushford 5/25/19
+		 * @param Description of the task.
+		 * @param State of completion of the task.
 		 */
 		public TaskPanel(String Description, boolean State) {
 
@@ -45,7 +47,7 @@ public class TaskPanel extends JOptionPane{
 		
 		}
 		/**
-		 * @author Joseph Rushford
+		 * @author Joseph Rushford 5/25/19
 		 */
 		public Tasks returnTask() {
 			Tasks newTask = new Tasks(myName, myState);

@@ -47,9 +47,9 @@ import model.User;
  * Class to start splash screen for DIY project.
  * Represents the home screen of the application when first opened up. 
  * 
- * @author gehry guest
- * @author joseph rushford
- * @author Miranda Bessex
+ * @author gehry guest 5/13/19
+ * @author joseph rushford 5/24/19
+ * @author Miranda Bessex 6/3/19
  * @version 1.7.44
  */
 
@@ -115,8 +115,8 @@ public class HomePage extends JFrame implements ActionListener {
     
     /**
      * Constructor for the HomePage
-     * @author gehry guest
-     * @author Miranda Bessex
+     * @author gehry guest 5/13/19
+     * @author Miranda Bessex 6/6/19
      */
     public HomePage() {
     	
@@ -133,7 +133,7 @@ public class HomePage extends JFrame implements ActionListener {
     
     /**
      * Method to initialize fields
-     * @author Miranda Bessex
+     * @author Miranda Bessex 6/6/19
      */
     private void initializeFields() {
     	
@@ -167,7 +167,7 @@ public class HomePage extends JFrame implements ActionListener {
 
     /**
      * A method to run a option pane for log in information and creates a user
-     * @author Miranda Bessex
+     * @author Miranda Bessex 6/8/19
      */
 	private void userLogIn() {
 		
@@ -178,7 +178,7 @@ public class HomePage extends JFrame implements ActionListener {
     
     /**
      * sets up containers, JPanels, and progress bar with layouts and colors.
-     * @author gehry guest
+     * @author gehry guest 5/13/19
      */
     private void setUp() {
         
@@ -197,7 +197,7 @@ public class HomePage extends JFrame implements ActionListener {
     
     /**
      * This is where we populate the list that appears on the GUI.
-     * @author Miranda Bessex
+     * @author Miranda Bessex 6/7/19
      */
     void setUpList(Application myApp) {
     	
@@ -245,7 +245,7 @@ public class HomePage extends JFrame implements ActionListener {
      * Method to create an "Add Project button" within the main list if no projects exist for the user
      * Takes you to the add project page
      * @return Add first project button
-     * @author Miranda Bessex
+     * @author Miranda Bessex 6/7/19
      */
     private JButton createBeginingAddButton() {
     	JButton button = new JButton("+ Add First Project!");
@@ -270,7 +270,7 @@ public class HomePage extends JFrame implements ActionListener {
 
 	/**
      * populates the menu bar with actions,buttons and menus.
-     * @author gehry guest
+     * @author gehry guest 5/13/19
      */
     private void setUpMenuBar() {
         
@@ -331,7 +331,7 @@ public class HomePage extends JFrame implements ActionListener {
     
     /**
      * changes the look of the buttons to appear and act similar to jmenus.
-     * @author gehry guest
+     * @author gehry guest 5/13/19
      */
     private void customizeJMenuButtons() {
         
@@ -357,8 +357,8 @@ public class HomePage extends JFrame implements ActionListener {
     /**
      * creates the main home panel that holds the home view
      * This is created each time the list of projects is updated
-     * @author gehry guest
-     * @author Miranda Bessex
+     * @author gehry guest 5/13/19
+     * @author Miranda Bessex 6/8/19
      */
     private void setUpMainPanel() {
     	
@@ -389,7 +389,7 @@ public class HomePage extends JFrame implements ActionListener {
     
    /**
     * Method to add action listeners to all of the hard coded buttons
-    * @author Miranda Bessex
+    * @author Miranda Bessex 6/10/19
     */
     private void addActionListenersToButtons() {
         
@@ -409,7 +409,7 @@ public class HomePage extends JFrame implements ActionListener {
     
     /**
      * Sets up size, location, visibility for frame of the home page.
-     * @author gehry guest
+     * @author gehry guest 5/13/19
      */
     private void displayHome() {
 
@@ -429,8 +429,8 @@ public class HomePage extends JFrame implements ActionListener {
 
     /**
      * Method to open a file when you want to import data into the application
-     * @author joseph rushford
-     * @author Miranda Bessex
+     * @author joseph rushford 5/24/19
+     * @author Miranda Bessex 6/07/19
      */
     private void openFile() {
     
@@ -470,7 +470,7 @@ public class HomePage extends JFrame implements ActionListener {
     
     /**
      * Method to save the file on export
-     * @author joseph rushford
+     * @author joseph rushford 5/24/19
      */
     private void saveFile() {
         
@@ -490,9 +490,9 @@ public class HomePage extends JFrame implements ActionListener {
    
     /**
      * All Actions perfomed by all of the buttons on the page
-     * @author Miranda Bessex
-     * @author joseph rushford
-     * @author gehry guest
+     * @author Miranda Bessex 6/8/19
+     * @author joseph rushford 5/24/19
+     * @author gehry guest 5/13/19
      */
     @Override
     public void actionPerformed(final ActionEvent theEvent) {

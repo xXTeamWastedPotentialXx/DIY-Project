@@ -19,7 +19,7 @@ public class MaterialPanel extends JOptionPane{
 		private String myName;
 		private String myAmount;
 		/**
-		 * @author Joseph Rushford
+		 * @author Joseph Rushford 5/24/19
 		 */
 		public MaterialPanel(String theName, String theCost, String theQuantity) {
 			JTextField cost = new JTextField(30);
@@ -55,7 +55,7 @@ public class MaterialPanel extends JOptionPane{
 		
 		}
 		/**
-		 * @author Joseph Rushford
+		 * @author Joseph Rushford 5/24/19
 		 */
 		public Materials returnMat() {
 			Materials newMat = new Materials("invalid", (double) -1, 0);

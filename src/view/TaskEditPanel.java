@@ -30,7 +30,7 @@ public class TaskEditPanel extends JOptionPane{
 	
 	/**
 	 * Constructor for the Task edit panel that will pop up when a user wants to edit a task
-	 * @author Miranda Bessex
+	 * @author Miranda Bessex 6/12/19
 	 */
 	public TaskEditPanel(String Description, boolean State, AddPage theAddPage) {
 
@@ -87,7 +87,7 @@ public class TaskEditPanel extends JOptionPane{
 	
 	}
 	/**
-	 * @author Joseph Rushford
+	 * @author Joseph Rushford 6/3/19
 	 */
 	public Tasks returnTask() {
 		Tasks newTask = new Tasks(myName, myState);

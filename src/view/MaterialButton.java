@@ -25,13 +25,14 @@ public class MaterialButton extends JButton {
 	
 	/**
 	 * A getter for the material on the button
-	 * @author Miranda Bessex
+	 * @author Miranda Bessex 6/6/19
 	 */
 	public Materials getMaterials() {
 		return myMaterial;
 	}
 	
 	/**
+	 * @author Miranda Bessex 6/6/19
 	 * Setter for the material
 	 */
 	public void setMaterial(Materials theMaterial) {

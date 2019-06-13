@@ -12,7 +12,7 @@ public class ProjectButton extends JButton {
 	/**
 	 * Constructor for the Project Button
 	 * @param theProject
-	 * @author Miranda Bessex
+	 * @author Miranda Bessex 6/6/19
 	 */
 	public ProjectButton(Project theProject) {
 		super(theProject.toString());
@@ -22,7 +22,7 @@ public class ProjectButton extends JButton {
 	
 	/**
 	 * A getter for the project on the button
-	 * @author Miranda Bessex
+	 * @author Miranda Bessex 6/6/19
 	 */
 	public Project getProject() {
 		return myProject;

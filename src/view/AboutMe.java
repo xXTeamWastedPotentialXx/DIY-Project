@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 
 /**
  * Class to represent the about me box
- * @author Miranda Bessex
+ * @author Miranda Bessex 5/12/19
  *
  */
 public class AboutMe {
@@ -18,7 +18,9 @@ public class AboutMe {
     
     private String devolpers;
     
-    
+    /**
+     * @author Miranda Bessex 5/12/19
+     */
     public AboutMe () {
         version = "";
         devolpers = "";
@@ -27,6 +29,9 @@ public class AboutMe {
     }
     
     
+    /**
+     * @author Miranda Bessex 5/12/19
+     */
     private void getVersion() {
         
         try {
@@ -43,6 +48,9 @@ public class AboutMe {
         aboutMeButtonAction();
     }
     
+    /**
+     * @author Miranda Bessex 5/12/19
+     */
     private void aboutMeButtonAction() {
         
         JOptionPane.showMessageDialog(null, "About Me: \n Version: " + version + "\n Developers: " + devolpers );

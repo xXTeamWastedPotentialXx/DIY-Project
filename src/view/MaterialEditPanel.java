@@ -36,7 +36,7 @@ public class MaterialEditPanel extends JOptionPane{
 	 * @param theName
 	 * @param theCost
 	 * @param theQuantity
-	 * @author Miranda Bessex
+	 * @author Miranda Bessex 6/11/19
 	 */
 	public MaterialEditPanel(String theName, String theCost, String theQuantity, AddPage theAddPage) {
 		
@@ -108,7 +108,7 @@ public class MaterialEditPanel extends JOptionPane{
 	
 	}
 	/**
-	 * @author 
+	 * @author Miranda Bessex 5/24/19
 	 */
 	public Materials returnMat() {
 		Materials newMat = new Materials("invalid", (double) -1, 0);

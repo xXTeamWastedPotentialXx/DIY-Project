@@ -8,8 +8,8 @@ import java.util.ArrayList;
 
 /**
  * Class to model a project
- * @author gehryguest
- * @author Miranda Bessex
+ * @author gehryguest 5/12/19
+ * @author Miranda Bessex 6/02/19
  *
  */
 public class Project {
@@ -50,9 +50,9 @@ public class Project {
       * @param theStatus
       * @param theTasks
       * @param theMats
-      * @author gehry guest
-      * @author Jacob Marquardt
-      * @author Miranda Bessex
+      * @author gehry guest 5/12/19
+      * @author Jacob Marquardt 6/06/19
+      * @author Miranda Bessex 6/10/19
       */ 
   	 public Project(String theName, int theDifficulty, int thePriorty,
  			ArrayList<Tasks> theTasks, ArrayList<Materials> theMats) {
@@ -75,9 +75,9 @@ public class Project {
       * @param theStatus
       * @param theTasks
       * @param theMats
-      * @author gehry guest
-      * @author Jacob Marquardt
-      * @author Miranda Bessex
+      * @author gehry guest 5/12/19
+      * @author Jacob Marquardt 6/06/19
+      * @author Miranda Bessex 6/10/19
       */ 
   	 public Project(int theID, String theName, int theDifficulty, int thePriorty,
  			ArrayList<Tasks> theTasks, ArrayList<Materials> theMats) {
@@ -94,7 +94,7 @@ public class Project {
     
     /** 
      * @param theName
-     * @author gehry guest
+     * @author gehry guest 5/12/19
      */
     public Project(final String theName) {
     	myProjectName = theName;
@@ -103,14 +103,14 @@ public class Project {
     //########## Getters ############
     /**
      * @return myProjectID
-     * @author Jacob Marquardt
+     * @author Jacob Marquardt 6/06/19
      */
     public int getProjectID() {
     	return myProjectID;
     }
     /** 
      * @return myTotalCost
-     * @author gehry guest
+     * @author gehry guest 5/12/19
      */
     public int getTotalCost() {
     	calculateTotalCost();
@@ -120,7 +120,7 @@ public class Project {
     
     /**
      * Method to calculate the total cost of the project
-     * @author Miranda Bessex
+     * @author Miranda Bessex 6/10/19
      */
     private void calculateTotalCost() {
     	int sum = 0;
@@ -132,7 +132,7 @@ public class Project {
 
 	/** 
      * @return myDifficultly
-     * @author gehry guest
+     * @author gehry guest 5/12/19
      */
     public int getDifficultly() {
         
@@ -141,7 +141,7 @@ public class Project {
     
     /** 
      * @return myPriorityOfProject
-     * @author gehry guest
+     * @author gehry guest 5/12/19
      */
     public int getPriority() {
         
@@ -150,7 +150,7 @@ public class Project {
     
     /** 
      * @return myProgressOfProject
-     * @author gehry guest
+     * @author gehry guest 5/12/19
      */
     public int getProgress() {
         
@@ -159,7 +159,7 @@ public class Project {
     
     /** 
      * @return myProjectName
-     * @author gehry guest
+     * @author gehry guest 5/12/19
      */
     public String getProjectName() {
         
@@ -168,7 +168,7 @@ public class Project {
     
     /** 
      * @return myEnvironmentallyFriendly
-     * @author gehry guest
+     * @author gehry guest 5/12/19
      */
     public boolean getEnviromentallyFriendly() {
         
@@ -177,7 +177,7 @@ public class Project {
     
     /** 
      * @return myTasks
-     * @author gehry guest
+     * @author gehry guest 5/12/19
      */
     public ArrayList<Tasks> getTasks() {
         
@@ -186,7 +186,7 @@ public class Project {
     
     /** 
      * @return myMaterials
-     * @author gehry guest
+     * @author gehry guest 5/12/19
      */
     public ArrayList<Materials> getMaterials() {
         
@@ -197,7 +197,7 @@ public class Project {
     
     /**
      * @param theProjectID
-     * @author Jacob Marquardt
+     * @author Jacob Marquardt 6/6/19
      */
     public void setProjectID(final int theProjectID) {
     	this.myProjectID = theProjectID;
@@ -205,7 +205,7 @@ public class Project {
     
     /** 
      * @param theTotalCost
-     * @author gehry guest
+     * @author gehry guest 5/12/19
      */
     public void setTotalCost(int theTotalCost) {
         
@@ -214,7 +214,7 @@ public class Project {
     
     /** 
      * @param theTotalCost
-     * @author gehry guest
+     * @author gehry guest 5/12/19
      */
     public void setDifficultly(int theDifficultly) {
         
@@ -223,7 +223,7 @@ public class Project {
     
     /** 
      * @param thePriority
-     * @author gehry guest
+     * @author gehry guest 5/12/19
      */
     public void setPriority(int thePriority) {
         
@@ -233,7 +233,7 @@ public class Project {
     
     /** 
      * @param theProgress
-     * @author gehry guest
+     * @author gehry guest 5/12/19
      */
     public void setProgress(int theProgress) {
         
@@ -242,7 +242,7 @@ public class Project {
     
     /** 
      * @param theName
-     * @author gehry guest
+     * @author gehry guest 5/12/19
      */
     public void setProjectName(String theName) {
         
@@ -251,7 +251,7 @@ public class Project {
     
     /** 
      * @param theEnviromentallyFriendly
-     * @author gehry guest
+     * @author gehry guest 5/12/19
      */
     public void setEnviromentallyFriendly(boolean theEnviromentallyFriendly) {
         
@@ -262,7 +262,7 @@ public class Project {
     
     /** 
      * @param theTask
-     * @author gehry guest
+     * @author gehry guest 5/12/19
      */
     public void addTasks(Tasks theTask) {
         
@@ -271,7 +271,7 @@ public class Project {
     
     /** 
      * @param theMaterial
-     * @author gehry guest
+     * @author gehry guest 5/12/19
      */
     public void addMaterials(Materials theMaterial) {
         
@@ -283,7 +283,7 @@ public class Project {
     
     /** 
      * @param theTask
-     * @author gehry guest
+     * @author gehry guest 5/12/19
      */
     public void removeTasks(Tasks theTask) {
         
@@ -292,7 +292,7 @@ public class Project {
     
     /** 
      * @param theMaterial
-     * @author gehry guest
+     * @author gehry guest 5/12/19
      */
     public void removeMaterials(Materials theMaterial) {
         
@@ -302,7 +302,7 @@ public class Project {
     /**
      * This will be the string that is displayed in the home page list
      * @override toString() method
-     * @author Miranda Bessex
+     * @author Miranda Bessex 6/10/19
      */
     public String toString() {
     	String spacer = "     ";

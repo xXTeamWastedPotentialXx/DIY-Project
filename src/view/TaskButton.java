@@ -6,7 +6,7 @@ import model.Tasks;
 
 /**
  * A class to model a Task button, a JBUtton with access to the Task it was created with
- * @author Miranda Bessex
+ * @author Miranda Bessex 6/11/19
  */
 public class TaskButton extends JButton {
 
@@ -18,7 +18,7 @@ public class TaskButton extends JButton {
 	/**
 	 * Constructor for the Task Button
 	 * @param theProject
-	 * @author Miranda Bessex
+	 * @author Miranda Bessex 6/11/19
 	 */
 	public TaskButton(Tasks theTask, String theString) {
 		super(theString);
@@ -28,7 +28,7 @@ public class TaskButton extends JButton {
 	
 	/**
 	 * A getter for the task on the button
-	 * @author Miranda Bessex
+	 * @author Miranda Bessex 6/11/19
 	 */
 	public Tasks getTask() {
 		return myTask;
@@ -36,6 +36,7 @@ public class TaskButton extends JButton {
 	
 	/**
 	 * Setter for the task
+	 * @author Miranda Bessex 6/11/19
 	 */
 	public void setTask(Tasks theTask) {
 		myTask = theTask;

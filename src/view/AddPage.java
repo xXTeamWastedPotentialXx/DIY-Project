@@ -39,9 +39,9 @@ public class AddPage extends JFrame implements ChangeListener, ActionListener {
 	
     /**
      * This class represents the page in the gui for adding a new project to the project set
-     * @author Joseph Rushford
-     * @author Gehry Guest
-     * @author Miranda Bessex
+     * @author Joseph Rushford 5/20/19
+     * @author Gehry Guest 5/26/19
+     * @author Miranda Bessex 6/01/19
      */
     private static final long serialVersionUID = 1304544587598674961L;
 
@@ -118,9 +118,9 @@ public class AddPage extends JFrame implements ChangeListener, ActionListener {
 	 * @param theHome page
 	 * @param theApp controller
 	 * @param theCSV file with user information
-	 * @author Gehry Guest
-	 * @author Joseph Rushford
-	 * @author Miranda Bessex
+	 * @author Gehry Guest 5/26/19
+	 * @author Joseph Rushford 5/24/19
+	 * @author Miranda Bessex 6/8/19
 	 */
     public AddPage(HomePage theHome, Application theApp, File theCSV) {
     	myApp = theApp;
@@ -133,8 +133,8 @@ public class AddPage extends JFrame implements ChangeListener, ActionListener {
     
     /**
      * Method to initialize all of the fields in the constructor
-     * @author Miranda Bessex
-     * @author Joseph Rushford
+     * @author Miranda Bessex 6/02/19
+     * @author Joseph Rushford 5/24/19
      */
     private void initializeFields() {
     	
@@ -160,7 +160,8 @@ public class AddPage extends JFrame implements ChangeListener, ActionListener {
 
 	/**
      * Method to set up and format the frame
-     * @author Miranda Bessex
+     * @author Miranda Bessex 6/01/19
+     * @author Joseph Rushford 5/24/19
      */
     private void setUpFrame() {
     	
@@ -248,7 +249,7 @@ public class AddPage extends JFrame implements ChangeListener, ActionListener {
 
 	/**
      * creates the slider for the thickness menu.
-     * @author Joseph Rushford
+     * @author Joseph Rushford 5/23/19
      */
     public void createSliders() {
         final int increment = 5;
@@ -285,8 +286,8 @@ public class AddPage extends JFrame implements ChangeListener, ActionListener {
     }
 	/**
 	 * Method to construct the tabbed pane for materials and tasks
-	 * @author Joseph Rushford
-	 * @author Miranda Bessex
+	 * @author Joseph Rushford 5/26/19
+	 * @author Miranda Bessex 6/01/19
 	 */
     public void createTabPanes() {
     	JScrollPane myMats = new JScrollPane(myMaterialPanel);
@@ -303,7 +304,7 @@ public class AddPage extends JFrame implements ChangeListener, ActionListener {
 
    /**
     * sets the integer value for difficulty.
-    * @author Gehry Guest
+    * @author Gehry Guest 5/20/19
     * @param theValue integer for difficulty.
     */
     public void setMyDifficultyValue(final int theValue) {
@@ -312,7 +313,7 @@ public class AddPage extends JFrame implements ChangeListener, ActionListener {
        
    /**
     * returns a integer value.
-    * @author Gehry Guest
+    * @author Gehry Guest 5/20/19
     * @return myDifficultyValue integer from slider.
     */
     public int getMyDifficultyValue() {
@@ -320,7 +321,7 @@ public class AddPage extends JFrame implements ChangeListener, ActionListener {
     }
     /**
      * sets the integer value for thickness.
-	 * @author Joseph Rushford
+	 * @author Joseph Rushford 5/26/19
      * @param thePriortyValue integer for Proirty.
      */
      public void setMyPriortyValue(final int theValue) {
@@ -329,7 +330,7 @@ public class AddPage extends JFrame implements ChangeListener, ActionListener {
         
     /**
      * returns a integer value.
-	 * @author Joseph Rushford
+	 * @author Joseph Rushford 5/26/19
      * @return Value integer from Priortyslider.
      */
      public int getMyPriortyValue() {
@@ -337,8 +338,8 @@ public class AddPage extends JFrame implements ChangeListener, ActionListener {
      }
 
     /**
-     * @author Gehry Guest
-     * @author Joseph Rushford
+     * @author Gehry Guest 5/20/19
+     * @author Joseph Rushford 5/26/19
      */
     @Override
     public void stateChanged(final ChangeEvent theEvent) {
@@ -350,8 +351,8 @@ public class AddPage extends JFrame implements ChangeListener, ActionListener {
     }
 	/**
 	 * Monitors and redirects to different pages for all of the actions availible
-	 * @author Miranda Bessex
-	 * @author Joseph Rushford
+	 * @author Miranda Bessex 6/02/19
+	 * @author Joseph Rushford 5/27/19
 	 */
     @Override
     public void actionPerformed(final ActionEvent theEvent) {
@@ -387,7 +388,8 @@ public class AddPage extends JFrame implements ChangeListener, ActionListener {
      * Method to be called when the add material button is clicked
      * Creates Material Buttons for all materials created
      * To edit or delete these materials in the project you can do it by clicking on them
-     * @author Miranda Bessex
+     * @author Miranda Bessex 6/01/19
+     * @author Joseph Rushford 5/27/19
      */
     private void materialAddButtonAction() {
     	MaterialPanel addMat = new MaterialPanel("", "", "");
@@ -446,7 +448,7 @@ public class AddPage extends JFrame implements ChangeListener, ActionListener {
 
 	/**
      * Method to be called when the add task button is clicked
-     * @author Miranda Bessex
+     * @author Miranda Bessex 6/06/19
      */
 	private void taskAddButtonAction() {
 		TaskPanel addTask = new TaskPanel("", false);
@@ -499,12 +501,11 @@ public class AddPage extends JFrame implements ChangeListener, ActionListener {
 		myTaskPanel.revalidate();
 		
 		
-		System.out.println(myTasks);
 	}
 	
 	/**
 	 * Method to add materials to the material list
-	 * @author Miranda Bessex
+	 * @author Miranda Bessex 6/01/19
 	 */
 	void addMaterial(Materials theMaterial) {
 		myMaterials.add(theMaterial);
@@ -513,7 +514,7 @@ public class AddPage extends JFrame implements ChangeListener, ActionListener {
 	/**
 	 * Method to delete materials from the material list
 	 * Deletes material by name so once the name has been added it cannot be change
-	 * @author Miranda Bessex
+	 * @author Miranda Bessex 6/01/19
 	 */
 	void deleteMaterial(Materials theMaterial) {
 		myMaterials.add(theMaterial);
@@ -529,7 +530,7 @@ public class AddPage extends JFrame implements ChangeListener, ActionListener {
 	/**
 	 * Method to delete task from the task list
 	 * Deletes task by name so once the name has been added it cannot be change
-	 * @author Miranda Bessex
+	 * @author Miranda Bessex 6/04/19
 	 */
 	void deleteTask(Tasks theTask) {
 		myTasks.add(theTask);
@@ -543,7 +544,7 @@ public class AddPage extends JFrame implements ChangeListener, ActionListener {
 	
 	/**
 	 * Method to add Tasks to the task list
-	 * @author Miranda Bessex
+	 * @author Miranda Bessex 6/01/19
 	 */
 	void addTasks(Tasks theTask) {
 		myTasks.add(theTask);

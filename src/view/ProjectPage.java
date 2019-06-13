@@ -38,9 +38,9 @@ import model.Tasks;
 
 /**
  * Class to model the project view/edit page
- * @author Miranda Bessex
- * @author Gehry Guest
- * @author Joseph Rushford
+ * @author Miranda Bessex 6/5/19
+ * @author Gehry Guest 6/2/19
+ * @author Joseph Rushford 5/27/19
  */
 public class ProjectPage extends JFrame implements ChangeListener, ActionListener {
 	
@@ -112,8 +112,8 @@ public class ProjectPage extends JFrame implements ChangeListener, ActionListene
 	 * @param theHome
 	 * @param theApp
 	 * @param theProject
-	 * @author Gehry Guest
-	 * @author Joseph Rushford
+	 * @author Gehry Guest 6/2/19
+	 * @author Joseph Rushford 5/27/19
 	 */
     public ProjectPage(HomePage theHome, Application theApp, Project theProject) {
     	
@@ -133,8 +133,8 @@ public class ProjectPage extends JFrame implements ChangeListener, ActionListene
     
     /**
      * Method to set up the project page
-     * @author Miranda Bessex
-	 * @author Gehry Guest
+     * @author Miranda Bessex 6/05/19
+	 * @author Gehry Guest 6/03/19
      */
     private void setUpProjectPage() {
     	this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -218,7 +218,7 @@ public class ProjectPage extends JFrame implements ChangeListener, ActionListene
 
     /**
      * Method to initialize the formatting for the project name header
-     * @author Miranda Bessex
+     * @author Miranda Bessex 6/7/19
      */
 	private void formatNameField() {
 		myName.setHorizontalAlignment(SwingConstants.CENTER);
@@ -229,7 +229,7 @@ public class ProjectPage extends JFrame implements ChangeListener, ActionListene
 
 	/**
 	 * Method for initializing all of the fields for the project page
-	 * @author Miranda Bessex
+	 * @author Miranda Bessex 6/7/19
 	 */
 	private void initializeFields() {
 		myName = new JTextField(myProject.getProjectName());
@@ -248,8 +248,8 @@ public class ProjectPage extends JFrame implements ChangeListener, ActionListene
 	}
 
 	/**
-     * creates the slider for the thickness menu.
-     * @author @author Gehry Guest
+     * 
+     * @author @author Gehry Guest 6/2/19
      */
     public void createSliders() {
         final int increment = 5;
@@ -287,8 +287,8 @@ public class ProjectPage extends JFrame implements ChangeListener, ActionListene
     
 	/**
 	 * Method to create the material and task tabs on the page
-	 * @author Joseph Rushford
-	 * @author Miranda Bessex
+	 * @author Joseph Rushford 5/27/19
+	 * @author Miranda Bessex 5/27/19
 	 */
     public void createTabPanes() {
     	JScrollPane myMats = new JScrollPane(myMatPan);
@@ -303,7 +303,7 @@ public class ProjectPage extends JFrame implements ChangeListener, ActionListene
 
     /**
      * Method to fill the materials panel with the projects materials
-     * @author Miranda Bessex
+     * @author Miranda Bessex 6/6/19
      */
    private void fillMaterials() {
 	   for(Materials m: myProject.getMaterials()) {
@@ -321,7 +321,7 @@ public class ProjectPage extends JFrame implements ChangeListener, ActionListene
 
    /**
     * Method to fill the task panel with the projects tasks
-    * @author Miranda Bessex
+    * @author Miranda Bessex 6/6/19
     */
    private void fillTasks() {
 	   for(Tasks t: myProject.getTasks()) {
@@ -352,7 +352,7 @@ public class ProjectPage extends JFrame implements ChangeListener, ActionListene
    
    /**
     * Method to rebuild buttons after edit has been selected
-    * @author Miranda Bessex
+    * @author Miranda Bessex 6/6/19
     */
    private void rebuildButtons() {
 	   buttonOptions.removeAll();
@@ -365,7 +365,7 @@ public class ProjectPage extends JFrame implements ChangeListener, ActionListene
 
    /**
     * sets the integer value for difficulty.
-    * @author Gehry Guest
+    * @author Gehry Guest 6/2/19
     * @param theValue integer for difficulty.
     */
     public void setMyDifficultyValue(final int theValue) {
@@ -374,7 +374,7 @@ public class ProjectPage extends JFrame implements ChangeListener, ActionListene
        
    /**
     * returns a integer value.
-    * @author Gehry Guest
+    * @author Gehry Guest 6/2/19
     * @return myDifficultyValue integer from slider.
     */
     public int getMyDifficultyValue() {
@@ -383,7 +383,7 @@ public class ProjectPage extends JFrame implements ChangeListener, ActionListene
     
     /**
      * sets the integer value for thickness.
-	 * @author Joseph Rushford
+	 * @author Joseph Rushford 5/27/19
      * @param thePriortyValue integer for Proirty.
      */
      public void setMyPriortyValue(final int theValue) {
@@ -392,7 +392,7 @@ public class ProjectPage extends JFrame implements ChangeListener, ActionListene
         
     /**
      * returns a integer value.
-	 * @author Joseph Rushford
+	 * @author Joseph Rushford 5/27/19
      * @return Value integer from Priortyslider.
      */
      public int getMyPriortyValue() {
@@ -401,8 +401,8 @@ public class ProjectPage extends JFrame implements ChangeListener, ActionListene
      
     /**
      * Method to set the state of the page whether the owner is editing or not
-     * @author Gehry Guest
-     * @author Joseph Rushford
+     * @author Gehry Guest 5/27/19
+     * @author Joseph Rushford 5/27/19
      */
     public void setState(boolean theState) {
         myDifficultySlider.setEnabled(theState);
@@ -426,8 +426,8 @@ public class ProjectPage extends JFrame implements ChangeListener, ActionListene
 	/**
 	 * Action performed override function
 	 * Directs the specific actions to different functions 
-	 * @author Joseph Rushford
-	 * @author Miranda Bessex
+	 * @author Joseph Rushford 5/28/19
+	 * @author Miranda Bessex 6/5/19
 	 */
     @Override
     public void actionPerformed(final ActionEvent theEvent) {
@@ -462,7 +462,7 @@ public class ProjectPage extends JFrame implements ChangeListener, ActionListene
 
     /**
      * Method to be called when the add material button is selected
-     * @author Miranda Bessex
+     * @author Miranda Bessex 6/6/19
      */
     private void materialAddButtonAction() {
     	MaterialPanel addMat = new MaterialPanel("", "", "");
@@ -486,7 +486,7 @@ public class ProjectPage extends JFrame implements ChangeListener, ActionListene
 
 	/**
      * method to be called when the add task button has been clicked
-     * @author Miranda Bessex
+     * @author Miranda Bessex 6/6/19
      */
     private void taskAddButtonAction() {
     	TaskPanel addTask = new TaskPanel("description", false);
@@ -519,7 +519,7 @@ public class ProjectPage extends JFrame implements ChangeListener, ActionListene
 
 	/**
      * method to be called when the delete button has been clicked
-     * @author Miranda Bessex
+     * @author Miranda Bessex 6/7/19
      */
     private void deleteButtonAction() {
     	int areYouSure = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this project?", "Delete", JOptionPane.YES_NO_OPTION);
@@ -533,7 +533,7 @@ public class ProjectPage extends JFrame implements ChangeListener, ActionListene
 
 	/**
      * method to be called when the Save button has been clicked
-     * @author Miranda Bessex
+     * @author Miranda Bessex 6/7/19
      */
 	private void saveButtonAction() {
 		myProject.setProjectName(myName.getText());

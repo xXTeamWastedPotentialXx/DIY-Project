@@ -10,9 +10,9 @@ import javax.swing.JTextField;
 public class SettingPopUp extends JOptionPane {
 	/**
 	 * Class to represent the pop up window for displaying the current person logged in to the application
-	 * @author Miranda Bessex
-	 * @author Gehry Guest
-	 * @author Joeseph Rushford
+	 * @author Miranda Bessex 6/12/19
+	 * @author Gehry Guest 6/12/19
+	 * @author Joeseph Rushford 5/27/19
 	 */
 	private static final long serialVersionUID = 1L;
 	
@@ -27,7 +27,9 @@ public class SettingPopUp extends JOptionPane {
 	 * Constructor for the pop up settings window
 	 * @param theEmail
 	 * @param theName
-	 * @author Miranda Bessex
+	 * @author Miranda Bessex 6/12/19
+	 * @author Gehry Guest 6/12/19
+	 * @author Joseph Rushford 5/26/19
 	 */
 	public SettingPopUp(String theEmail, String theName) {
 		
@@ -65,11 +67,16 @@ public class SettingPopUp extends JOptionPane {
 			myName = theName;
 		}
 	}
-	
+	/**
+	 * @author Joseph Rushford 5/27/19
+	 */
 	public String getEmail() {
 		return myEmail;
 		
 	}
+	/**
+	 * author Joseph Rushford 5/27/19
+	 */
 	public String getName() {
 		return myName;
 	}

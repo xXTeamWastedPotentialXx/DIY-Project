@@ -10,4 +10,5 @@ module test {
 	exports model;
 
 	requires java.desktop;
+	requires junit;
 }

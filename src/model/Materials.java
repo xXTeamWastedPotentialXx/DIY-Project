@@ -5,32 +5,37 @@ package model;
 
 
 /**
- * @author Annora Jones
+ * @author Annora Jones 5/28/19
  *
  */
 public class Materials {
 
 	/**
 	 * The name of the Material.
+	 * @author Annora Jones 5/28/19
 	 */
 	private String name;
 	
 	/**
 	 * The cost of one unit of this Material.
+	 * @author Annora Jones 5/28/19
 	 */
 	private double cost;
 	
 	/**
 	 * The number of units of this material the user needs.
+	 * @author Annora Jones 5/28/19
 	 */
 	private int quantity;
 	
 	/**
 	 * The total cost of all of this kind of material.
+	 * @author Annora Jones 5/28/19
 	 */
 	private double totalCost;
 	
 	/**
+	 * @author Annora Jones 5/28/19
 	 * Constructs a Material object.
 	 * @param theName the name of the Material.
 	 * @param theCost the cost of one unit of this material.
@@ -48,6 +53,7 @@ public class Materials {
 	//Accessor methods
 	
 	/**
+	 * @author Annora Jones 5/28/19
 	 * Calculates the total cost of this type of Material the user requires.
 	 * i.e. cost * quantity
 	 */
@@ -57,6 +63,7 @@ public class Materials {
 	}
 	
 	/**
+	 * @author Annora Jones 5/28/19
 	 * @return the name of the Material
 	 */
 	public String getName() {
@@ -65,6 +72,7 @@ public class Materials {
 	}
 	
 	/**
+	 * @author Annora Jones 5/28/19
 	 * @return the cost of the Material
 	 */
 	public double getCost() {
@@ -73,6 +81,7 @@ public class Materials {
 	}
 	
 	/**
+	 * @author Annora Jones 5/28/19
 	 * @return the quantity of the Material
 	 */
 	public int getQuantity() {
@@ -81,6 +90,7 @@ public class Materials {
 	}
 	
 	/**
+	 * @author Annora Jones 5/28/19
 	 * @return the total cost of the selected quantity of Materials
 	 */
 	public double getTotalCost() {
@@ -92,6 +102,7 @@ public class Materials {
 	//Mutator methods
 	
 	/**
+	 * @author Annora Jones 5/28/19
 	 * @param theName the new name to give to the Material
 	 */
 	public void setName(final String theName) {
@@ -100,6 +111,7 @@ public class Materials {
 	}
 	
 	/**
+	 * @author Annora Jones 5/28/19
 	 * @param theCost the new cost to give to the Material
 	 */
 	public void setCost(final double theCost) {
@@ -108,6 +120,7 @@ public class Materials {
 	}
 	
 	/**
+	 * @author Annora Jones 5/28/19
 	 * @param theQuantity the new quantity of the Material.
 	 */
 	public void setQuantity(final int theQuantity) {

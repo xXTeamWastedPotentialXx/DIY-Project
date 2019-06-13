@@ -2,7 +2,7 @@ package model;
 
 /**
  * Class to model a User of the APP
- * @author Miranda Bessex
+ * @author Miranda Bessex 6/10/19
  *
  */
 
@@ -19,7 +19,7 @@ public class User {
 	 * Constructor for the User
 	 * @param theName
 	 * @param theEmail
-	 * @author Miranda Bessex
+	 * @author Miranda Bessex 6/10/19
 	 */
 	public User(String theName, String theEmail) {
 		myName = theName;
@@ -29,7 +29,7 @@ public class User {
 	/**
 	 * Getter for the name
 	 * @return name
-	 * @author Miranda Bessex
+	 * @author Miranda Bessex 6/10/19
 	 */
 	public String getUserName() {
 		return myName;
@@ -38,7 +38,7 @@ public class User {
 	/**
 	 * Getter for the email
 	 * @return email
-	 * @author Miranda Bessex
+	 * @author Miranda Bessex 6/10/19
 	 */
 	public String getUserEmail() {
 		return myEmail;
@@ -46,7 +46,7 @@ public class User {
 	
 	/**
 	 * Setter for User Name
-	 * @author Miranda Bessex
+	 * @author Miranda Bessex 6/10/19
 	 */
 	public void setUserName(String theName) {
 		myName = theName;
@@ -54,7 +54,7 @@ public class User {
 	
 	/**
 	 * Setter for Email
-	 * @author Miranda Bessex
+	 * @author Miranda Bessex 6/10/19
 	 */
 	public void setUserEmail(String theEmail) {
 		myEmail = theEmail;

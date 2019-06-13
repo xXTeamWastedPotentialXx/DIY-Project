@@ -11,14 +11,14 @@ import javax.swing.UnsupportedLookAndFeelException;
 /**
  * Driver file runs the program.
  * 
- * @author Gehry Guest
+ * @author Gehry Guest 5/11/19
  * @version 1.7.44
  */
 public final class Driver {
 
     /**
      * Private constructor, to prevent instantiation of this class.
-     * @author gehry guest
+     * @author gehry guest 5/13/19
      */
     private Driver() {
         
@@ -43,7 +43,7 @@ public final class Driver {
    
     /**
      * The main method, invokes the GUI. Command line arguments are ignored.
-     * @author gehry guest
+     * @author gehry guest 5/12/19
      * @param theArgs Command line arguments.
      */
     public static void main(final String[] theArgs) {

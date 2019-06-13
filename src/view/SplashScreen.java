@@ -19,7 +19,7 @@ import javax.swing.Timer;
 /**
  * Class to start splash screen for DIY project.
  * 
- * @author gehry guest
+ * @author gehry guest 5/13/19
  * @version 1.7.44
  */
 public class SplashScreen extends JWindow {
@@ -48,7 +48,7 @@ public class SplashScreen extends JWindow {
     
     /**
      * Initializes fields with reasonable values.
-     * @author gehry guest
+     * @author gehry guest 5/13/19
      */
     public SplashScreen() {
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -63,7 +63,7 @@ public class SplashScreen extends JWindow {
     
     /**
      * sets up containers, JPanels, and progress bar with layouts and colors.
-     * @author gehry guest
+     * @author gehry guest 5/13/19
      */
     private void setUp() {
         
@@ -90,7 +90,7 @@ public class SplashScreen extends JWindow {
 
     /**
     * A inner class that listens for timer events.
-    * @author gehry guest
+    * @author gehry guest 5/13/19
     */
     private class TimeListener implements ActionListener {
 
