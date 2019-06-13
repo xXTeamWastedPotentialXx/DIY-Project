@@ -35,7 +35,7 @@ public class MaterialPanel extends JOptionPane{
 			namePan.add(name, BorderLayout.EAST);
 			costPan.add(new JLabel("Cost:"), BorderLayout.WEST);
 			costPan.add(cost, BorderLayout.EAST);
-			amountPan.add(new JLabel("Amount:"), BorderLayout.WEST);
+			amountPan.add(new JLabel("Quantity:"), BorderLayout.WEST);
 			amountPan.add(amount, BorderLayout.EAST);
 			JPanel[] settings = new JPanel[3];
 			name.setName("Name");

@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -106,6 +107,9 @@ public class AddPage extends JFrame implements ChangeListener, ActionListener {
     /** The tasks display panel */
 	private JPanel myTaskPanel;
 	
+	/** Reference to the add page */
+	private AddPage myAddPage;
+	
 	
 	/**
 	 * Constructor for the add page
@@ -131,6 +135,8 @@ public class AddPage extends JFrame implements ChangeListener, ActionListener {
      * @author Joseph Rushford
      */
     private void initializeFields() {
+    	
+    	myAddPage = this;
     	
     	myMaterialPanel = new JPanel();
         myTaskPanel = new JPanel();
@@ -388,12 +394,36 @@ public class AddPage extends JFrame implements ChangeListener, ActionListener {
 			String matInfo = "	Name: " + newMat.getName() + "       Cost: " + 
 						Double.toString(newMat.getCost()) + "       Quantity: " + 
 						Integer.toString(newMat.getQuantity());
-			JLabel newLab = new JLabel(matInfo);
+			
+			MaterialButton newLab = new MaterialButton(newMat, matInfo);
+			newLab.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					MaterialEditPanel addMat = new MaterialEditPanel(newLab.getMaterials().getName(), Double.toString(newLab.getMaterials().getCost()), Integer.toString(newLab.getMaterials().getQuantity()), myAddPage);
+					Materials newMaterial = addMat.returnMat();
+					deleteMaterial(newMaterial);
+					addMaterial(newMaterial);
+					myMaterialPanel.repaint();
+					myMaterialPanel.revalidate();
+				}
+				
+			});
+			
 			
 			myMaterialPanel.add(newLab);
 			myMaterialPanel.repaint();
 			myMaterialPanel.revalidate();
 		}
+	}
+
+    /**
+     * Method for deleting the material before saving the editited version
+     * @param materials
+     */
+	protected void deleteOrigninalMat(Materials materials) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	/**
@@ -419,4 +449,28 @@ public class AddPage extends JFrame implements ChangeListener, ActionListener {
 		myMaterialPanel.repaint();
 		myTaskPanel.revalidate();
 	}
+	
+	/**
+	 * Method to add materials to the material list
+	 * @author Miranda Bessex
+	 */
+	void addMaterial(Materials theMaterial) {
+		myMaterials.add(theMaterial);
+	}
+	
+	/**
+	 * Method to delete materials from the material list
+	 * Deletes material by name so once the name has been added it cannot be change
+	 * @author Miranda Bessex
+	 */
+	void deleteMaterial(Materials theMaterial) {
+		myMaterials.add(theMaterial);
+		for (Iterator<Materials> iterator = myMaterials.iterator(); iterator.hasNext(); ) {
+			Materials value = iterator.next();
+			if(value.getName().equals(theMaterial.getName())) {
+				iterator.remove();
+			}
+		}
+	}
 }
+
