@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -15,6 +16,7 @@ import java.util.Iterator;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -383,6 +385,8 @@ public class AddPage extends JFrame implements ChangeListener, ActionListener {
 
     /**
      * Method to be called when the add material button is clicked
+     * Creates Material Buttons for all materials created
+     * To edit or delete these materials in the project you can do it by clicking on them
      * @author Miranda Bessex
      */
     private void materialAddButtonAction() {
@@ -402,8 +406,22 @@ public class AddPage extends JFrame implements ChangeListener, ActionListener {
 				public void actionPerformed(ActionEvent e) {
 					MaterialEditPanel addMat = new MaterialEditPanel(newLab.getMaterials().getName(), Double.toString(newLab.getMaterials().getCost()), Integer.toString(newLab.getMaterials().getQuantity()), myAddPage);
 					Materials newMaterial = addMat.returnMat();
-					deleteMaterial(newMaterial);
-					addMaterial(newMaterial);
+					if(!newMaterial.getName().equals("invalid")) {
+						deleteMaterial(newMaterial);
+						addMaterial(newMaterial);
+						
+						String matInfo = "	Name: " + newMaterial.getName() + "       Cost: " + 
+								Double.toString(newMaterial.getCost()) + "       Quantity: " + 
+								Integer.toString(newMaterial.getQuantity());
+						
+						newLab.setMaterial(newMaterial);
+						newLab.setText(matInfo);
+					}else{
+						myMaterialPanel.remove(newLab);
+					}
+					
+					
+				
 					myMaterialPanel.repaint();
 					myMaterialPanel.revalidate();
 				}
@@ -434,6 +452,7 @@ public class AddPage extends JFrame implements ChangeListener, ActionListener {
 		TaskPanel addTask = new TaskPanel("", false);
 		Tasks newTask = addTask.returnTask();
 		myTasks.add(newTask);
+		
 		String TaskInfo;
 		if(newTask.isCompleted()) {
 			TaskInfo = "	Name: " + newTask.getName() + "    Completed: Yes";
@@ -441,13 +460,46 @@ public class AddPage extends JFrame implements ChangeListener, ActionListener {
 			TaskInfo = "	Name: " + newTask.getName() + "    Completed: No";
 		}
 		
-		JLabel newLab = new JLabel(TaskInfo);
+		TaskButton newTaskButton = new TaskButton(newTask, TaskInfo);
+		newTaskButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				TaskEditPanel addTask = new TaskEditPanel(newTaskButton.getTask().getName(), newTaskButton.getTask().isCompleted(), myAddPage);
+				
+				Tasks newTasks = addTask.returnTask();
+				
+				if(!newTasks.getName().equals("No Name Given")) {
+					
+					deleteTask(newTaskButton.getTask());
+					
+					String TaskInfo2;
+					if(newTasks.isCompleted()) {
+						TaskInfo2 = "	Name: " + newTasks.getName() + "    Completed: Yes";
+					}else {
+						TaskInfo2 = "	Name: " + newTasks.getName() + "    Completed: No";
+					}
+					
+					newTaskButton.setTask(newTasks);
+					newTaskButton.setText(TaskInfo2);
+				}else{
+					myTaskPanel.remove(newTaskButton);
+				}
+				
+				
 			
-		myTasks.add(addTask.returnTask());
+				myTaskPanel.repaint();
+				myTaskPanel.revalidate();
+			}
+			
+		});
+	
 		
-		myTaskPanel.add(newLab);
+		myTaskPanel.add(newTaskButton);
 		myMaterialPanel.repaint();
 		myTaskPanel.revalidate();
+		
+		
+		System.out.println(myTasks);
 	}
 	
 	/**
@@ -471,6 +523,30 @@ public class AddPage extends JFrame implements ChangeListener, ActionListener {
 				iterator.remove();
 			}
 		}
+	}
+
+	
+	/**
+	 * Method to delete task from the task list
+	 * Deletes task by name so once the name has been added it cannot be change
+	 * @author Miranda Bessex
+	 */
+	void deleteTask(Tasks theTask) {
+		myTasks.add(theTask);
+		for (Iterator<Tasks> iterator = myTasks.iterator(); iterator.hasNext(); ) {
+			Tasks value = iterator.next();
+			if(value.getName().equals(theTask.getName())) {
+				iterator.remove();
+			}
+		}
+	}
+	
+	/**
+	 * Method to add Tasks to the task list
+	 * @author Miranda Bessex
+	 */
+	void addTasks(Tasks theTask) {
+		myTasks.add(theTask);
 	}
 }
 

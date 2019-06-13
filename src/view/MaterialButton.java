@@ -30,4 +30,11 @@ public class MaterialButton extends JButton {
 	public Materials getMaterials() {
 		return myMaterial;
 	}
+	
+	/**
+	 * Setter for the material
+	 */
+	public void setMaterial(Materials theMaterial) {
+		myMaterial = theMaterial;
+	}
 }

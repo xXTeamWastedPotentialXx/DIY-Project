@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -9,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 import Application.Application;
 import model.Materials;
@@ -51,7 +53,11 @@ public class MaterialEditPanel extends JOptionPane{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				myAddPage.deleteMaterial(new Materials(theName, 0, 0));
-				
+				Window w = SwingUtilities.getWindowAncestor(myDeleteButton);
+
+			    if (w != null) {
+			      w.setVisible(false);
+			    }
 			}
 			
 		});
@@ -88,7 +94,13 @@ public class MaterialEditPanel extends JOptionPane{
 			myAmount = amount.getText();
 			myAddPage.addMaterial(new Materials(myName, Double.parseDouble(myCost), Integer.parseInt(myAmount)));
 			
-		} else {
+		} else if(confirm == JOptionPane.CANCEL_OPTION) {
+			myCost = theName;
+			myName = theCost;
+			myAmount = theQuantity;
+			myAddPage.addMaterial(new Materials(myName, Double.parseDouble(myCost), Integer.parseInt(myAmount)));
+			
+		}else {
 			myCost = "invalid input";
 			myName = "No Name Given";
 			myAmount = "invalid input";
@@ -96,7 +108,7 @@ public class MaterialEditPanel extends JOptionPane{
 	
 	}
 	/**
-	 * @author Joseph Rushford
+	 * @author 
 	 */
 	public Materials returnMat() {
 		Materials newMat = new Materials("invalid", (double) -1, 0);
