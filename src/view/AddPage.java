@@ -487,8 +487,6 @@ public class AddPage extends JFrame implements ChangeListener, ActionListener {
 					myTaskPanel.remove(newTaskButton);
 				}
 				
-				
-			
 				myTaskPanel.repaint();
 				myTaskPanel.revalidate();
 			}
