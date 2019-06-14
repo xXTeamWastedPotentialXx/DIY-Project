@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class Project {
     
     /** total cost tracker. */
-    private int myTotalCost;
+    private double myTotalCost;
     
     /** difficultly for project. */
     private int myDifficultly;
@@ -112,7 +112,7 @@ public class Project {
      * @return myTotalCost
      * @author gehry guest 5/12/19
      */
-    public int getTotalCost() {
+    public double getTotalCost() {
     	calculateTotalCost();
         
         return myTotalCost;

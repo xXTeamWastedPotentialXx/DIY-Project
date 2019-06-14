@@ -36,7 +36,7 @@ public class AboutMe {
         
         try {
             
-            Scanner ver = new Scanner(new File("./Resources/version.txt"));
+            Scanner ver = new Scanner(new File("/version.txt"));
             version += ver.nextLine();
             devolpers += ver.nextLine();
             

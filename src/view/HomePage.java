@@ -365,7 +365,7 @@ public class HomePage extends JFrame implements ActionListener {
     	myMainHomePanel.removeAll();
     		
     	final JLabel imgLabel = new JLabel("",
-                new ImageIcon("./Resources/App Logo_without name.png"), 
+                new ImageIcon(getClass().getClassLoader().getResource("App Logo_without name.png")), 
                 SwingConstants.CENTER);
         
     	myMainHomePanel.add(myMenuBar, BorderLayout.NORTH);

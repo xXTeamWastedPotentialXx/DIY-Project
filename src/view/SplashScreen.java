@@ -72,7 +72,7 @@ public class SplashScreen extends JWindow {
         final JPanel panel = new JPanel();
         
         final JLabel imgLabel = new JLabel("",
-                                        new ImageIcon("./Resources/App Logo_without name.png"), 
+                                        new ImageIcon(getClass().getClassLoader().getResource("App Logo_without name.png")), 
                                         SwingConstants.CENTER);
         
         container.add(panel, BorderLayout.CENTER);

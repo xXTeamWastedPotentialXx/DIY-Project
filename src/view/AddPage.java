@@ -175,7 +175,7 @@ public class AddPage extends JFrame implements ChangeListener, ActionListener {
     	
     	//Created Header image at the top of the panel
     	final JLabel imgLabel = new JLabel("",
-                new ImageIcon("./Resources/App Logo_without name.png"), 
+                new ImageIcon(getClass().getClassLoader().getResource("App Logo_without name.png")), 
                 SwingConstants.CENTER); 
     	
     	panel.add(imgLabel);

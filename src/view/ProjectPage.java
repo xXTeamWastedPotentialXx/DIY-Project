@@ -150,7 +150,7 @@ public class ProjectPage extends JFrame implements ChangeListener, ActionListene
         panel.setOpaque(true);
         
         final JLabel imgLabel = new JLabel("",
-                new ImageIcon("./Resources/App Logo_without name.png"), 
+                new ImageIcon(getClass().getClassLoader().getResource("App Logo_without name.png")), 
                 SwingConstants.CENTER); 
         
         panel.add(imgLabel);
