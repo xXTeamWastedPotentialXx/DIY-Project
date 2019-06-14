@@ -2,6 +2,8 @@ package view;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Scanner;
 
 import javax.swing.JOptionPane;
@@ -31,19 +33,17 @@ public class AboutMe {
     
     /**
      * @author Miranda Bessex 5/12/19
+     * @author Joseph Rushford 6/13/19
      */
     private void getVersion() {
-        
-        try {
-            
-            Scanner ver = new Scanner(new File("/version.txt"));
+
+            InputStream t = getClass().getResourceAsStream("/version.txt");
+            InputStreamReader r = new InputStreamReader(t);
+            Scanner ver = new Scanner(r);
             version += ver.nextLine();
             devolpers += ver.nextLine();
             
-        } catch (FileNotFoundException e) {
-            
-            e.printStackTrace();
-        }
+
         
         aboutMeButtonAction();
     }
