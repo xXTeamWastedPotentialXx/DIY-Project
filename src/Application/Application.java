@@ -40,8 +40,8 @@ import model.User;
 
 /**
  * Class that holds username, email, and projects and handles the .csv file where it's all stored.
- * @author Miranda Bessex
- * @author Jacob Marquardt
+ * @author Miranda Bessex 6/10/19
+ * @author Jacob Marquardt 6/5/19
  */
 public class Application {
 	/** The user of the application */
@@ -57,7 +57,7 @@ public class Application {
 	/**
 	 * Constructor for the application
 	 * @param theUser
-	 * @author Miranda Bessex
+	 * @author Miranda Bessex 6/10/19
 	 */
 	public Application(User theUser) {
 		theProjects = new ArrayList<Project>();
@@ -71,8 +71,8 @@ public class Application {
 	/**
 	 * Adds a new project to theProjects
 	 * @param theNewProject
-	 * @author Jacob Marquardt
-	 * @author Miranda Bessex
+	 * @author Jacob Marquardt 6/5/19
+	 * @author Miranda Bessex 6/10/19
 	 */
 	public void addProject(final Project theNewProject) {
 		
@@ -93,7 +93,7 @@ public class Application {
 	/**
 	 * Removes project with the specified ID from theProjects, updates following project IDs to keep ordering correct, and updates csv accordingly.
 	 * @param projectID
-	 * @author Miranda Bessex
+	 * @author Miranda Bessex 6/10/19
 	 */
 	public void deleteProject(final int projectID) {
 		for (Iterator<Project> iterator = theProjects.iterator(); iterator.hasNext(); ) {
@@ -107,7 +107,7 @@ public class Application {
 	
 	/**
 	 * Getter for the projects array
-	 * @author Miranda Bessex
+	 * @author Miranda Bessex 6/10/19
 	 */
 	public ArrayList<Project> getProjectList(){
 		return theProjects;
@@ -117,7 +117,7 @@ public class Application {
 	/**
 	 * Parses the username, email, and projects from a .csv file.
 	 * @param theCsv the .csv file being parsed
-	 * @author Jacob Marquardt
+	 * @author Jacob Marquardt 6/5/19
 	 */
 	public void loadAllEntries(final File theCsv) {
 		try (Scanner scan = new Scanner(theCsv);) {
@@ -186,7 +186,7 @@ public class Application {
 	
 	/**
 	 * Writes all current application info to csv.
-	 * @author Jacob Marquardt
+	 * @author Jacob Marquardt 6/5/19
 	 */
 	public void write() {
 		try (FileWriter writer = new FileWriter(csv);) {
@@ -257,7 +257,7 @@ public class Application {
 	/**
 	 * Getter for theProjects.
 	 * @return theProjects
-	 * @author Jacob Marquardt
+	 * @author Jacob Marquardt 6/5/19
 	 */
 	public ArrayList<Project> getProjects() {
 		return theProjects;
@@ -266,7 +266,7 @@ public class Application {
 	/**
 	 * Getter for username.
 	 * @return username
-	 * @author Jacob Marquardt
+	 * @author Jacob Marquardt 6/5/19
 	 */
 	public String getUsername() {
 		return myUser.getUserName();
@@ -275,7 +275,7 @@ public class Application {
 	/**
 	 * Getter for userEmail.
 	 * @return userEmail
-	 * @author Jacob Marquardt
+	 * @author Jacob Marquardt 6/5/19
 	 */
 	public String getUserEmail() {
 		return myUser.getUserEmail();
@@ -284,7 +284,7 @@ public class Application {
 	/**
 	 * Getter for csv
 	 * @return csv
-	 * @author Jacob Marquardt
+	 * @author Jacob Marquardt 6/5/19
 	 */
 	public File getCsv() {
 		return csv;
@@ -296,7 +296,7 @@ public class Application {
 	
 	/**
 	 * Setter for the csv file the app is being saved too
-	 * @author Miranda Bessex
+	 * @author Miranda Bessex 6/10/19
 	 * @params the file
 	 */
 	public void setFile(final File theFile) {
@@ -306,7 +306,7 @@ public class Application {
 	/**
 	 * Changes username to the argument passed and updates csv accordingly.
 	 * @param theUsername
-	 * @author Jacob Marquardt
+	 * @author Jacob Marquardt 6/5/19
 	 */
 	public void setUserName(final String theUsername) {
 		myUser.setUserName(theUsername);
@@ -316,7 +316,7 @@ public class Application {
 	/**
 	 * Changes userEmail to the argument passed and updates csv accordingly.
 	 * @param theUserEmail
-	 * @author Jacob Marquardt
+	 * @author Jacob Marquardt 6/5/19
 	 */
 	public void setUserEmail(final String theUserEmail) {
 		myUser.setUserEmail(theUserEmail);

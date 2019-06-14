@@ -17,8 +17,7 @@ import model.Tasks;
 
 
 /**
- * @author jr-99
- *
+ * @author Joseph Rushford 6/13/19
  */
 public class ProjectTests {
 
@@ -42,13 +41,14 @@ public class ProjectTests {
 	public void testToString() {
 		assertEquals("why     Priority: 7     Difficulty: 3     ", myTestProject.toString());
 	}
+	
 	/**
-	 * @author Joseph Rushford 6/13/19
+	 * @author Miranda Bessex 6/13/19
 	 * Test method for Project getTotalCost method
 	 */
 	@Test
 	public void testgetTotal() {
-		assertEquals(24, myTestProject.getTotalCost());
+		assertTrue(Math.abs(myTestProject.getTotalCost() - 24) < 0.00001);
 	}
 	
 	
